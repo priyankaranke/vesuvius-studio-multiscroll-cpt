@@ -26,7 +26,7 @@ dependencies as sibling folders (`ROOT.parent / ...`). Clone into an empty worki
 ```text
 <work>/
   donor-studio-resunet-scratch-20260926/   the run: prepare.py, render.py, train.py, sparse_data.py, finalize.py, ...
-    labels/                                 frozen label snapshot            (HF dataset: labels/)
+    labels/                                 frozen label snapshot            (HF dataset: labels.tar; tar xf)
     prepared/<dataset>/                     sample/tile plans + ct-tiles.npy (HF dataset: prepared/)
     hf-epoch-9/                             inference package of the published weights
   donor-continued-training-20260910/        accepted native sampler adapters, volume catalog
@@ -50,12 +50,26 @@ Training reads, per dataset, `prepared/<id>/` — `labels.npy` (0 unknown, 1 bac
 `entry-to-patch.npy`, `tiles.npy` (512 px tile origins) and `ct-tiles.npy` (`[N, 512, 512, 16]` uint8, already in
 model depth order) — about 32.6 GiB of CT tiles in total (8,340 tiles).
 
-Download from the HF dataset into the layout above. To regenerate instead (what the dataset itself was built with):
+Download everything into the layout above (the HF paths mirror this repository):
+
+```bash
+hf download paranke/vesuvius-814-841-9b-studio-training-data --repo-type dataset --local-dir <work>
+(cd <work>/donor-studio-resunet-scratch-20260926 && tar xf labels.tar)   # only needed to re-derive the plans
+```
+
+To regenerate instead (this is how the dataset's CT tiles were rebuilt on 2026-10-10, after the run's original
+`prepared/` folders and local scan copies had been deleted):
 
 1. `rebuild_select.py` — re-derives every `prepared/<id>/` plan from the frozen label snapshot exactly as
    `prepare.py select` did, and checks each dataset against `data.json` (samples, patches, tiles, supervised ink and
    background, holdout exclusion) without rewriting `data.json`.
-2. `render.py` — renders each 512 px tile from the public scans with the accepted samplers: campaign surfaces through
+2. `render_rebuild.py plan` / `run` — restores the level-0 chunks each tile reads (the renderer's own chunk plan;
+   every chunk checked against the size and MD5 in the backup's S3 object inventory) into the scan's local copy and
+   calls the unchanged `render.render_row`. Needs the geometry backup restored as `donor-spirals-20260921/`
+   (HF dataset `backup/`; extract `remote/home/ubuntu/donor-spirals-20260921/*` from `remote-artifacts.tar.gz` and
+   `geometry-masks.tar.gz` with `--strip-components=3`). Campaign tiles read 134 GiB of chunks (PHerc0814 64.7,
+   PHerc0841 54.5, PHerc0009B 14.5).
+   `render.py` itself renders each 512 px tile from the public scans with the accepted samplers: campaign surfaces through
    `vc_render_tifxyz` (image `ghcr.io/scrollprize/villa/volume-cartographer@sha256:bad516f6…`, 17 native planes at the
    scan pitch, 16 kept in model depth order); original donors through `volume_sampling` / `fast_volume_sampling`.
    Scans: PHerc0814 `20250804134230` (9.362 µm), PHerc0841 `20250821151531` (9.366 µm), PHerc0009B `20250521125136`
