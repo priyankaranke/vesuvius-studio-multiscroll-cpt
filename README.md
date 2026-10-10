@@ -97,6 +97,13 @@ A rerun preserves the recipe and seeds but is not promised to reproduce bit-iden
 See `donor-studio-resunet-scratch-20260926/hf-epoch-9/README.md`: `[16, H, W]` uint8 surface planes in model depth
 order, `clip(raw, 0, 200) / 255`, 128 px windows, central 96 px output, stride 96.
 
+## Data rebuild check (2026-10-10)
+
+All 199 datasets with samples were re-rendered (8,340 tiles, 32.6 GiB; `render_rebuild.py verify`: 0 incomplete).
+`verify_holdout.py` scores the published epoch-9 weights on the rebuilt holdout exactly as `train.py`'s `evaluate()`
+(eager instead of compiled): loss 0.51900, AP 0.76566, ROC-AUC 0.83043 on 1,334 patches (15,791 ink / 29,558 background
+pixels) against the logged 0.51891 / 0.76560 / 0.83043. HF dataset revision `0bcee887fe8f` holds 1,457 files (67.1 GB).
+
 ## Results at epoch 9 (fixed holdout, sparse labels)
 
 Masked validation loss 0.519, AP 0.766, ROC-AUC 0.830 (central 32 px core; 15,791 ink / 29,558 background pixels).
