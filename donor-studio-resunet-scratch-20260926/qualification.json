@@ -1,0 +1,14 @@
+{
+  "architecture_parameters": 223355921,
+  "baseline_checkpoint_sha256": "a16e462c1f4159537c5c156a55fa0630dbc0781992e7d6e8cd6a1a485ec84d71",
+  "unknown_gradient_max": 0.0,
+  "microbatch_gradient_max_difference": 0.0,
+  "eager_compile_probability_max_difference": 0.003644883632659912,
+  "backward_seconds": [
+    73.49585199169815,
+    0.9518054579384625
+  ],
+  "gpu_peak_allocated_bytes": 22824211968,
+  "optimizer_updates": 0,
+  "purpose": "Sparse loss correctness and unchanged fixed-recipe compiler/memory qualification"
+}

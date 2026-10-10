@@ -1,0 +1,20 @@
+{
+  "status": "paused_for_epoch_9_review",
+  "step": 74250,
+  "epoch": 9,
+  "offset": 528000,
+  "loss": 0.42751824855804443,
+  "gradient_norm": 1.0221384763717651,
+  "lr": 2.4405972656062346e-05,
+  "update_seconds": 0.992651570122689,
+  "training_seconds": 73503.97933261236,
+  "contributing_examples": 52,
+  "empty_batches": 0,
+  "empty_examples": 1163213,
+  "gpu_peak_bytes": 61800335360,
+  "planned_updates": 82500,
+  "updated_at": 1790481135.3028388,
+  "wandb_url": "https://wandb.ai/aranke-priyank99-personal/donor-s1-continued-training/runs/three-donor-studio-sparse-scratch-20260926",
+  "completed_epochs": 9,
+  "checkpoint": "/home/ubuntu/donor-studio-resunet-scratch-20260926/checkpoints/resume.pt"
+}

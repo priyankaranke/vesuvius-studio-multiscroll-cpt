@@ -1,0 +1,5 @@
+# Install a PyTorch build compatible with your GPU first.
+torch>=2.6
+numpy>=1.26
+safetensors>=0.4
+huggingface_hub>=0.36

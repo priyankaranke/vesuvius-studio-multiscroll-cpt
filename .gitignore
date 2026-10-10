@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+donor-studio-resunet-scratch-20260926/labels/
+donor-studio-resunet-scratch-20260926/prepared/
+donor-studio-resunet-scratch-20260926/checkpoints/
+donor-studio-resunet-scratch-20260926/wandb/
+donor-spirals-20260921/
+*.npy
+*.pt
+*.safetensors
