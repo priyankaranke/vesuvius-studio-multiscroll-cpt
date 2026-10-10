@@ -18,7 +18,7 @@ sys.path.insert(0, str(WORK / 'donor-studio-resunet-scratch-20260926'))
 from studio_env import load_env  # noqa: E402
 
 REPO = 'paranke/vesuvius-814-841-9b-studio-training-data'
-REVISION = 'main'   # pinned below once the dataset is final
+REVISION = 'ad919d288ede1c4daf92725288bb6fe29c558591'   # dataset revision verified by the 2026-10-10 fresh-machine reproduction
 RUN = 'donor-studio-resunet-scratch-20260926/'
 TRAINING = (RUN + 'prepared/', RUN + 'data.json', RUN + 'config.json', RUN + 'label-snapshot.json', RUN + 'qualification.json')
 

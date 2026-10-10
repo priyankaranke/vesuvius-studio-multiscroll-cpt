@@ -24,6 +24,10 @@ public, downloading needs a Hugging Face read token with access to them (put it 
 - One NVIDIA GPU with at least 80 GB of memory: all 8,340 CT tiles and their labels are kept on the GPU (37 GB, plus a
   36 GB working margin the loader checks). The original run used an NVIDIA GH200 (96 GB), ~1 s per update.
 - Python 3.11 and the exact packages in `requirements-training.txt` (PyTorch 2.13.0 + CUDA 13.0, cuDNN 9.20).
+- On NVIDIA Grace Hopper (GH200, ATS addressing) the GPU memory is also a NUMA node of the operating system, and the
+  page cache of large file reads can occupy it (it shows as used GPU memory with no process). The loader then fails
+  its memory check. Before training, flush the page cache (`sync; echo 1 | sudo tee /proc/sys/vm/drop_caches`) or
+  run under `numactl --membind=<CPU node>`.
 - About 70 GB of disk for the training data (+2.7 GB for the resumable checkpoint, +2 GB for the re-render inputs).
 
 ## Reproduce the run
@@ -34,7 +38,7 @@ uv venv --python 3.11.16 .venv
 uv pip install --python .venv --index-strategy unsafe-best-match -r requirements-training.txt
 #   (or: python3.11 -m venv .venv && .venv/bin/pip install -r requirements-training.txt)
 cp .env.example .env               # optional settings; HF_TOKEN only while the data is private
-.venv/bin/python download_data.py  # ~62 GB, every file checked against the Hub record of the pinned revision
+.venv/bin/python download_data.py  # ~64 GB, every file checked against the Hub record of the pinned revision
 cd donor-studio-resunet-scratch-20260926
 ../.venv/bin/python train.py       # the full 10-epoch scratch run; writes training.jsonl, checkpoints/, progress.json
 ```
@@ -90,6 +94,19 @@ All 199 datasets with samples were re-rendered (8,340 tiles, 32.6 GiB; `render_r
 `verify_holdout.py` scores the published epoch-9 weights on the rebuilt holdout exactly as `train.py`'s `evaluate()`
 (eager instead of compiled): loss 0.51900, AP 0.76566, ROC-AUC 0.83043 on 1,334 patches (15,791 ink / 29,558 background
 pixels) against the logged 0.51891 / 0.76560 / 0.83043. HF dataset revision `0bcee887fe8f` holds 1,457 files (67.1 GB).
+
+## Fresh-machine reproduction (2026-10-10)
+
+Commit `b21d83c` cloned fresh, a new environment from `requirements-training.txt`, and a fresh `download_data.py` of
+dataset revision `ad919d28` (1,421 files, 64.4 GB, every file checked), on one GH200:
+
+- `train.py` found the configuration identical to the original run (same `data.json` and label snapshot hashes) and
+  printed `SHARED_TILE_AUGMENTATION_EXACT` (64 examples).
+- Updates 1-300 against the original log (`compare_runs.py`: `REPRODUCED`): learning rate, contributing and empty
+  example counts, offset and epoch identical on every update; loss median relative difference 1.8e-4 (max 7.9e-3),
+  correlation 0.9992, mean 0.68184 against 0.68179.
+- Resumed from the published `resume.pt`: continued at update 74,251 (epoch 10) on the scheduled learning rate. Its
+  first 50 updates average loss 0.442, against 0.428 over the original's last 500 updates of epoch 9.
 
 ## Results at epoch 9 (fixed holdout, sparse labels)
 
