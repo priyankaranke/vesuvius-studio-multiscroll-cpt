@@ -1,7 +1,7 @@
 # Exact package versions the original Studio run (three-donor-studio-sparse-scratch-20260926) imported, as resolved on
 # its training host (Python 3.11.16, NVIDIA GH200 480GB, driver 580.105.08, aarch64; CUDA 13.0, cuDNN 9.20).
 # Install into a fresh Python 3.11 environment:
-#   uv venv --python 3.11.16 .venv && uv pip install --python .venv -r requirements-training.txt
+#   uv venv --python 3.11.16 .venv && uv pip install --python .venv --index-strategy unsafe-best-match -r requirements-training.txt
 #   (or: python3.11 -m venv .venv && .venv/bin/pip install -r requirements-training.txt)
 --extra-index-url https://download.pytorch.org/whl/cu130
 torch==2.13.0
