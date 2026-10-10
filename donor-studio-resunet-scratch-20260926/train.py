@@ -14,12 +14,30 @@ import sys
 import time
 import numpy as np
 import torch
+from studio_env import load_env
+load_env()
 from sparse_data import ROOT,GpuData,augment,parameters,masked_terms
 from small_unets import DeepResidualUNet
 
 RUN_ID='three-donor-studio-sparse-scratch-20260926'
-ENTITY,PROJECT='aranke-priyank99-personal','donor-s1-continued-training'
+# Optional integrations (portability; none is needed to reproduce the run, see .env.example):
+#   STUDIO_WANDB=1          log to Weights & Biases (WANDB_ENTITY / WANDB_PROJECT; credentials from `wandb login`)
+#   DONOR_SPIRAL_GPU_LEASE_TOKEN (+ STUDIO_GPU_LEASE_FILE)  the original host's exclusive-GPU lease check
+#   STUDIO_MAX_UPDATES=N    stop after N optimizer updates, with a resumable checkpoint (0 = full run)
+ENTITY,PROJECT=os.environ.get('WANDB_ENTITY') or None,os.environ.get('WANDB_PROJECT','studio-814-841-9b')
+MAX_UPDATES=int(os.environ.get('STUDIO_MAX_UPDATES','0') or 0)
 STOP=False
+
+
+class NoRun:
+    """Stand-in for a W&B run when logging is off."""
+    url=None
+
+    def __init__(self):self.summary={}
+
+    def log(self,*a,**k):pass
+
+    def finish(self):pass
 
 
 def atomic(path,value):
@@ -39,11 +57,12 @@ def epoch_indices(doc,epoch):
 
 
 def main():
-    assert os.environ.get('DONOR_SPIRAL_GPU_LEASE_TOKEN'),'Must launch through current run_gpu.py'
-    gate=Path('/home/ubuntu/.cache/vesuvius-gpu/donor-priority.json')
+    token=os.environ.get('DONOR_SPIRAL_GPU_LEASE_TOKEN')
+    gate=Path(os.environ.get('STUDIO_GPU_LEASE_FILE',str(Path.home()/'.cache/vesuvius-gpu/donor-priority.json')))
     def check_lease():
+        if not token:return  # no lease outside the original host
         value=json.loads(gate.read_text())
-        assert value['status']=='running' and value['ownership_token']==os.environ['DONOR_SPIRAL_GPU_LEASE_TOKEN']
+        assert value['status']=='running' and value['ownership_token']==token
     check_lease()
     doc=json.loads((ROOT/'data.json').read_text());assert doc['status']=='complete'
     qualification=json.loads((ROOT/'qualification.json').read_text())
@@ -66,8 +85,11 @@ def main():
                 throughput_changes='Shared512 native tiles and categorical masks resident in VRAM; coordinates/RNG/augmentation unchanged',
                 learning_rate_formula='2e-4*(.01+.99*min(1.,(step+1)/max(1,steps*.03)))*(.1+.9*(1+cos(pi*min(step,steps)/steps))/2)')
     atomic(ROOT/'config.json',config)
-    import wandb
-    run=wandb.init(entity=ENTITY,project=PROJECT,id=RUN_ID,resume='allow',dir=str(ROOT),name='814 / 841 / 9B · Studio sparse labels · scratch',config=config)
+    if os.environ.get('STUDIO_WANDB')=='1':
+        import wandb
+        run=wandb.init(entity=ENTITY,project=PROJECT,id=RUN_ID,resume='allow',dir=str(ROOT),name='814 / 841 / 9B · Studio sparse labels · scratch',config=config)
+    else:
+        wandb=None;run=NoRun()
     torch.set_num_threads(16);torch.backends.cudnn.benchmark=True;torch.backends.cuda.matmul.allow_tf32=True;torch.set_float32_matmul_precision('high')
     torch.manual_seed(2026090613)
     model=DeepResidualUNet(deeper=False).cuda();assert sum(p.numel() for p in model.parameters())==223355921
@@ -147,8 +169,8 @@ def main():
         while epoch<10:
             entries=epoch_indices(doc,epoch)
             while offset<len(entries):
-                if STOP:
-                    checkpoint();run.finish();return
+                if STOP or (MAX_UPDATES and step>=MAX_UPDATES):
+                    checkpoint();run.finish();print('STOPPED_AT_UPDATE',step,flush=True);return
                 if step%25==0:check_lease()
                 torch.cuda.synchronize();start=time.monotonic()
                 offsets,params=parameters(rng)
@@ -198,10 +220,12 @@ def main():
                     training_seconds=compute_seconds,wall_seconds=wall_before+time.monotonic()-began,
                     config=str(ROOT/'config.json'),label_snapshot=doc['label_snapshot'])
         atomic(ROOT/'training-result.json',result);atomic(ROOT/'progress.json',dict(result,updated_at=time.time()))
-        artifact=wandb.Artifact(RUN_ID+'-final',type='model',metadata=result);artifact.add_file(str(path))
-        for name in ('config.json','data.json','label-snapshot.json','train.py','sparse_data.py','validation-final.npz'):
-            artifact.add_file(str(ROOT/name))
-        run.log_artifact(artifact).wait();run.summary.update({'training/status':'complete','training/result':result})
+        if wandb is not None:
+            artifact=wandb.Artifact(RUN_ID+'-final',type='model',metadata=result);artifact.add_file(str(path))
+            for name in ('config.json','data.json','label-snapshot.json','train.py','sparse_data.py','validation-final.npz'):
+                artifact.add_file(str(ROOT/name))
+            run.log_artifact(artifact).wait()
+        run.summary.update({'training/status':'complete','training/result':result})
         print('TRAINING_COMPLETE',json.dumps(result),flush=True)
     except BaseException as error:
         atomic(ROOT/'progress.json',dict(status='failed',error=repr(error),step=step,epoch=epoch,offset=offset,updated_at=time.time()))

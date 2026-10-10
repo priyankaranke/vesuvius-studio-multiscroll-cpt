@@ -177,9 +177,9 @@ def prepare_one(row,catalog,volumes):
     raw=np.lib.format.open_memmap(ctpath,mode='r+' if ctpath.exists() else 'w+',dtype=np.uint8,shape=(16,ph,pw))
     if s is None:
         # Retain the already measured, centered released stack on its exact XY grid.
-        old=Path('/home/ubuntu/donor-labels-20260906/prepared')/ident/'ct.npy'
+        old=(ROOT.parent / 'donor-labels-20260906/prepared')/ident/'ct.npy'
         if not old.exists() and ident.startswith('source-'):
-            old=Path('/home/ubuntu/donor-labels-20260906/prepared')/ident.removeprefix('source-').split('-approved-')[0]/'ct.npy'
+            old=(ROOT.parent / 'donor-labels-20260906/prepared')/ident.removeprefix('source-').split('-approved-')[0]/'ct.npy'
         if not old.exists() and (ROOT/'legacy-ct'/ident/'ct.npy').exists():old=ROOT/'legacy-ct'/ident/'ct.npy'
         if not old.exists():old=Path(row['original_ct'])
         a=np.load(old,mmap_mode='r');n=len(a);selected=a[n//2-8:n//2+8]

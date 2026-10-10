@@ -17,7 +17,6 @@ from small_unets import DeepResidualUNet
 
 
 def main():
-    assert os.environ.get('DONOR_SPIRAL_GPU_LEASE_TOKEN'),'GPU lease required'
     torch.set_num_threads(16)
     torch.backends.cudnn.benchmark=True
     torch.backends.cuda.matmul.allow_tf32=True

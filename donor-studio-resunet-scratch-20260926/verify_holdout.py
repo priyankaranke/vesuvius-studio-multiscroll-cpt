@@ -18,11 +18,12 @@ ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT.parent / 'pherc1447-architecture-study-20260906'))
 from sparse_data import masked_terms
 from small_unets import DeepResidualUNet
+from studio_env import localize
 
 
 def crops(row, coords, width=128):
     """GpuData.crops for one dataset: reflect padding into the canvas, unknown (0) outside it."""
-    path = Path(row['folder']); tiles = np.load(path / 'tiles.npy'); ct = np.load(path / 'ct-tiles.npy', mmap_mode='r')
+    path = localize(row['folder']); tiles = np.load(path / 'tiles.npy'); ct = np.load(path / 'ct-tiles.npy', mmap_mode='r')
     labels = np.load(path / 'labels.npy', mmap_mode='r'); h, w = row['shape']
     lookup = {(int(y) // 512, int(x) // 512): k for k, (y, x) in enumerate(tiles)}
 
@@ -68,12 +69,12 @@ def main():
     doc = json.loads((ROOT / 'data.json').read_text()); rows = [r for r in doc['segments'] if r['samples']]
     model = DeepResidualUNet(deeper=False); model.load_state_dict(load_file(a.weights), strict=True); model.cuda().eval()
     hold = next(r for r in rows if r['role'] == 'validation')
-    result = dict(holdout=score(model, hold, np.load(Path(hold['folder']) / 'coordinates.npy')),
+    result = dict(holdout=score(model, hold, np.load(localize(hold['folder']) / 'coordinates.npy')),
                   logged_epoch9=dict(loss=0.518912, ap=0.765598, auc=0.830425, patches=1334, supervised_ink=15791, supervised_background=29558))
     print('HOLDOUT', json.dumps(result['holdout']), flush=True)
-    rng = np.random.default_rng(0); train = [r for r in rows if r['role'] == 'train' and (Path(r['folder']) / 'render.json').exists() and json.loads((Path(r['folder']) / 'render.json').read_text()).get('status') == 'complete']
+    rng = np.random.default_rng(0); train = [r for r in rows if r['role'] == 'train' and (localize(r['folder']) / 'render.json').exists() and json.loads((localize(r['folder']) / 'render.json').read_text()).get('status') == 'complete']
     for r in rng.choice(train, size=min(a.train_datasets, len(train)), replace=False):
-        c = np.load(Path(r['folder']) / 'coordinates.npy'); c = c[rng.choice(len(c), size=min(256, len(c)), replace=False)]
+        c = np.load(localize(r['folder']) / 'coordinates.npy'); c = c[rng.choice(len(c), size=min(256, len(c)), replace=False)]
         result[r["id"]] = score(model, r, c - 64); print('TRAIN', r['id'], r['geometry']['kind'], json.dumps(result[r['id']]), flush=True)
     (ROOT / 'rebuild/verify-holdout.json').write_text(json.dumps(result, indent=1))
 

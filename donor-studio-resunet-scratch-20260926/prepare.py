@@ -15,6 +15,7 @@ import numpy as np
 from PIL import Image
 import tifffile
 from scipy.spatial import cKDTree
+from studio_env import localize
 
 ROOT = Path(__file__).resolve().parent
 HOST = ROOT.parent
@@ -45,7 +46,7 @@ def atomic(path, value):
 
 
 def decode(row):
-    folder = Path(row['snapshot_directory'])
+    folder = localize(row['snapshot_directory'])
     path = folder / row['labels_file']
     if row['category'] == 'full-canvases':
         h, w = row['metadata']['shape'][-2:]
@@ -103,8 +104,7 @@ def geometry(row, baseline):
         assert production['geometry_fingerprint'] == surface['geometry']
         assert production['direction'] == direction, 'Label direction conflicts with accepted physical training convention'
     mesh = Path(prepared.get('source') if prepared.get('source_kind') == 'native_spiral_fit' or prepared.get('winding') else prepared.get('mesh', prepared.get('source', '')))
-    if not mesh.is_absolute():
-        mesh = STUDIO / mesh
+    mesh = localize(mesh) if mesh.is_absolute() else STUDIO / mesh
     assert (mesh / 'meta.json').exists(), str(mesh)
     scan = read(folder / 'config/scan.json')
     offset = [0, 0]
@@ -142,7 +142,7 @@ def exclusion(coords, geom, holdout):
             return coords[:0], dict(reason='Released 841 source lacks proven registration to holdout')
         a, valid, scale = s.a*s.ct_um, s.valid, np.array([geom['pitch']/s.pitch[1], geom['pitch']/s.pitch[0]])
     else:
-        mesh = Path(geom['mesh'])
+        mesh = localize(geom['mesh'])
         a = np.stack([np.asarray(Image.open(mesh/(k+'.tif')),np.float32) for k in 'xyz'],-1)*geom['pitch']
         valid = np.isfinite(a).all(-1)&(a>=0).all(-1)
         scale = np.asarray(read(mesh/'meta.json')['scale'],np.float32)[::-1]
@@ -183,7 +183,7 @@ def select_one(row):
         result.update(excluded_reason='No accepted source-specific input/orientation recipe; checking source alias separately')
         atomic(out/'selection.json',result);return result
     state=decode(row)
-    folder=Path(row['snapshot_directory']);m=row['metadata']
+    folder=localize(row['snapshot_directory']);m=row['metadata']
     maskfile=folder/(m['validMaskFile'] if row['category']=='original-labels' else m.get('geometry_file','geometry-valid.png'))
     physical=tifffile.imread(maskfile,key=0,maxworkers=1)>0 if maskfile.suffix=='.tif' else np.asarray(Image.open(maskfile))>0
     assert physical.shape==state.shape

@@ -5,6 +5,7 @@ import sys
 import numpy as np
 import torch
 from torch.nn import functional as F
+from studio_env import localize
 
 ROOT=Path(__file__).resolve().parent
 STUDY=ROOT.parent/'pherc1447-architecture-study-20260906'
@@ -60,7 +61,7 @@ class Data:
         for row in doc['segments']:
             if not row['samples']:
                 continue
-            path=Path(row['folder']);index=len(self.rows);self.rows.append(row)
+            path=localize(row['folder']);index=len(self.rows);self.rows.append(row)
             tiles=np.load(path/'tiles.npy')
             values=np.load(path/'ct-tiles.npy',mmap_mode='r')
             assert values.shape==(len(tiles),512,512,16) and values.dtype==np.uint8
@@ -126,7 +127,7 @@ class GpuData:
         self.coords=[];entry_row=np.empty(doc['training_entries'],np.int32);entry_yx=np.empty((doc['training_entries'],2),np.int32)
         start=0
         for i,row in enumerate(self.rows):
-            path=Path(row['folder']);tiles=np.load(path/'tiles.npy');values=np.load(path/'ct-tiles.npy',mmap_mode='r')
+            path=localize(row['folder']);tiles=np.load(path/'tiles.npy');values=np.load(path/'ct-tiles.npy',mmap_mode='r')
             labels=np.load(path/'labels.npy',mmap_mode='r');coords=np.load(path/'coordinates.npy');self.coords.append(coords)
             for k,(y,x) in enumerate(tiles):lookup[i,y//512,x//512]=start+k
             for offset in range(0,len(tiles),32):

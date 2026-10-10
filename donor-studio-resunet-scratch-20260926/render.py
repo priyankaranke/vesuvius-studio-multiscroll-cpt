@@ -14,9 +14,12 @@ import time
 import numpy as np
 import tifffile
 from prepare import ROOT,HOST,STUDIO,DONOR,BASE,read,atomic,native
+from studio_env import localize
 
-IMAGE='sha256:bad516f66001abca759454cc43e4fd11e5b19aa55d36bdc2043817291c8083c4'
-RUNTIME=HOST/'first-letters-ten-20260909/pipeline/render-runtime'
+IMAGE='ghcr.io/scrollprize/villa/volume-cartographer@sha256:bad516f66001abca759454cc43e4fd11e5b19aa55d36bdc2043817291c8083c4'
+# the run's vc_render_tifxyz build (HF data: render-runtime/); originally first-letters-ten-20260909/pipeline/render-runtime
+RUNTIME=Path(os.environ.get('STUDIO_RENDER_RUNTIME') or HOST/'render-runtime').resolve()
+DOCKER=os.environ.get('STUDIO_DOCKER','docker').split()   # e.g. 'sudo -n docker' where docker needs root
 
 
 def campaign_tile(row,y,x,stage):
@@ -25,13 +28,13 @@ def campaign_tile(row,y,x,stage):
     target=stage/'planes'
     # CLI crop is expressed in the unchanged full parent's UV frame. No mesh
     # crop, normalization, flattening, rotation or shape recomputation occurs.
-    command=['sudo','-n','docker','run','--rm','--network','none','--user',f'{os.getuid()}:{os.getgid()}',
+    command=[*DOCKER,'run','--rm','--network','none','--user',f'{os.getuid()}:{os.getgid()}',
              '--cpus','2','--memory','4g','--memory-swap','4g','--label','vesuvius.task=donor-studio-training-20260926',
              '-e','OMP_NUM_THREADS=2','-e','OPENBLAS_NUM_THREADS=1','-e','CUDA_VISIBLE_DEVICES=',
              '-v',f'{STUDIO}:/production:ro','-v',f'{ROOT}:/training','-v',f'{RUNTIME}:/runtime:ro',
              '--entrypoint','/runtime/vc_render_tifxyz',IMAGE,
-             '-v','/production/'+str(Path(g['scan']['destination']).relative_to(STUDIO)),
-             '-g','0','--scale','1','-s','/production/'+str(Path(g['mesh']).relative_to(STUDIO)),
+             '-v','/production/'+str(localize(g['scan']['destination']).relative_to(STUDIO)),
+             '-g','0','--scale','1','-s','/production/'+str(localize(g['mesh']).relative_to(STUDIO)),
              '-n','17','--slice-step','1','--pyramid','0',
              '--tif-output','/training/'+str(target.relative_to(ROOT)),
              '--cache-gb','1','--sampling-column-block','128','--chunks-already-staged',
@@ -77,7 +80,7 @@ def original_source(row):
     scroll={'PHerc0814':'814','PHerc0841':'841','PHerc0009B':'9B'}[row['scroll']]
     scan=read(STUDIO/scroll/'config/scan.json')
     assert g['recipe']['volume_id']==scan['scan_id'] and g['recipe']['level']==0
-    volume=native.FastVolume(str(Path(scan['destination'])/'0'),cache_gb=1,workers=4)
+    volume=native.FastVolume(str(localize(scan['destination'])/'0'),cache_gb=1,workers=4)
     def fetch(y,x,hh,ww):
         a,valid=s.render(volume,np.arange(y,y+hh),np.arange(x,x+ww),g['recipe']['xy_pitch_um'],g['recipe']['offsets_um'])
         a[:,~valid]=0
@@ -87,7 +90,7 @@ def original_source(row):
 
 
 def render_row(row):
-    folder=Path(row['folder']);ready=folder/'render.json'
+    folder=localize(row['folder']);ready=folder/'render.json'
     if ready.exists() and read(ready).get('status')=='complete':return row['id']
     coordinates=np.load(folder/'tiles.npy');path=folder/'ct-tiles.npy'
     data=np.lib.format.open_memmap(path,mode='r+' if path.exists() else 'w+',dtype=np.uint8,shape=(len(coordinates),512,512,16))

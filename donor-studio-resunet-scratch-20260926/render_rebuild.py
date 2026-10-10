@@ -27,6 +27,7 @@ import numpy as np
 import requests
 import render
 from prepare import ROOT, STUDIO, read, atomic
+from studio_env import localize
 
 OUT = ROOT / 'rebuild'; PLANS = OUT / 'plans'
 SCROLL_DIR = {'PHerc0814': '814', 'PHerc0841': '841', 'PHerc0009B': '9B'}
@@ -75,7 +76,7 @@ def _scan(scroll):
 
 def download(scroll, key):
     """Fetch level-0 chunk `z/y/x` into the local zarr; False when the chunk is outside the published mask."""
-    scan = _scan(scroll); path = Path(scan['destination']) / '0' / key
+    scan = _scan(scroll); path = localize(scan['destination']) / '0' / key
     if path.exists(): return True
     meta = inventory(scroll).get(key)
     if meta is None: return False
@@ -97,7 +98,7 @@ def download(scroll, key):
 def plan_tile(row, y, x, scratch):
     g = row['geometry']; oy, ox = g['offset_yx']; h, w = row['shape']; hh, ww = min(512, h - y), min(512, w - x)
     scratch.mkdir(parents=True, exist_ok=True)
-    cmd = ['sudo', '-n', 'docker', 'run', '--rm', '--network', 'none', '--user', f'{os.getuid()}:{os.getgid()}',
+    cmd = [*render.DOCKER, 'run', '--rm', '--network', 'none', '--user', f'{os.getuid()}:{os.getgid()}',
            '--cpus', '1', '--memory', '4g', '--memory-swap', '4g', '--label', 'vesuvius.task=studio-training-rebuild-20261010',
            '-e', 'OMP_NUM_THREADS=1', '-e', 'CUDA_VISIBLE_DEVICES=',
            '-v', f'{STUDIO}:/production:ro', '-v', f'{ROOT}:/training', '-v', f'{render.RUNTIME}:/runtime:ro',
@@ -122,7 +123,7 @@ def plan(workers):
     print('PLAN datasets', len(todo), flush=True)
     with ThreadPoolExecutor(workers) as pool:
         for row in todo:
-            tiles = np.load(Path(row['folder']) / 'tiles.npy')
+            tiles = np.load(localize(row['folder']) / 'tiles.npy')
             futs = [pool.submit(plan_tile, row, int(y), int(x), OUT / 'scratch' / f"plan-{row['id']}-{i}") for i, (y, x) in enumerate(tiles)]
             keys = set()
             for f in futs: keys.update(f.result())
@@ -156,7 +157,7 @@ def patch_original_sampler(rate):
     import fast_volume_sampling
     LIMIT.rate = rate; dests = {}
     for scroll, s in SCROLL_DIR.items():
-        dests[str(Path(_scan(scroll)['destination']) / '0') + '/'] = scroll
+        dests[str(localize(_scan(scroll)['destination']) / '0') + '/'] = scroll
     load = fast_volume_sampling.FastVolume._load
 
     def _load(self, key):
@@ -178,13 +179,13 @@ def run(render_workers, min_free_gib):
     for r in data:
         if r['geometry']['kind'] == 'campaign':
             p = read(PLANS / f"{r['id']}.json"); plans[r['id']] = p; need.update((r['scroll'], k) for k in p['keys'])
-    done = {r['id'] for r in data if (Path(r['folder']) / 'render.json').exists() and read(Path(r['folder']) / 'render.json').get('status') == 'complete'}
+    done = {r['id'] for r in data if (localize(r['folder']) / 'render.json').exists() and read(localize(r['folder']) / 'render.json').get('status') == 'complete'}
     order = [r for r in sorted(data, key=lambda r: (r['geometry']['kind'] != 'campaign', r['scroll'], r['tiles'])) if r['id'] not in done]
     print('RUN datasets', len(order), 'already complete', len(done), flush=True)
 
     def release(r):
         if r['id'] not in plans: return
-        dest = Path(_scan(r['scroll'])['destination']) / '0'
+        dest = localize(_scan(r['scroll'])['destination']) / '0'
         for k in plans[r['id']]['keys']:
             need[(r['scroll'], k)] -= 1
             if need[(r['scroll'], k)] <= 0: (dest / k).unlink(missing_ok=True)
@@ -208,7 +209,7 @@ def run(render_workers, min_free_gib):
 def verify():
     bad = 0; total = 0
     for r in rows():
-        f = Path(r['folder']); ok = (f / 'render.json').exists() and read(f / 'render.json').get('status') == 'complete'
+        f = localize(r['folder']); ok = (f / 'render.json').exists() and read(f / 'render.json').get('status') == 'complete'
         if ok:
             a = np.load(f / 'ct-tiles.npy', mmap_mode='r'); ok = a.shape == (r['tiles'], 512, 512, 16) and a.dtype == np.uint8; total += a.nbytes
         bad += not ok

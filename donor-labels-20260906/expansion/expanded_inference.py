@@ -172,7 +172,7 @@ def main():
         for case in cases:cpu_case(case)
     else:
         require_review_targets()
-        gate=Path('/home/ubuntu/.cache/vesuvius-gpu/donor-priority.json')
+        gate=Path(os.environ.get('STUDIO_GPU_LEASE_FILE',str(Path.home()/'.cache/vesuvius-gpu/donor-priority.json')))
         if not gate.exists() or json.loads(gate.read_text()).get('status')!='running' or 'DONOR_GPU_LOCK_FD' not in os.environ:raise RuntimeError('Start GPU stage through the lock-owning launcher')
         if any(not (OUT/c['id']/'ct-ready.json').exists() for c in cases):raise RuntimeError('All selected CT inputs must be ready before GPU ownership')
         os.fstat(int(os.environ['DONOR_GPU_LOCK_FD']))

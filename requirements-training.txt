@@ -1,0 +1,20 @@
+# Exact package versions the original Studio run (three-donor-studio-sparse-scratch-20260926) imported, as resolved on
+# its training host (Python 3.11.16, NVIDIA GH200 480GB, driver 580.105.08, aarch64; CUDA 13.0, cuDNN 9.20).
+# Install into a fresh Python 3.11 environment:
+#   uv venv --python 3.11.16 .venv && uv pip install --python .venv -r requirements-training.txt
+#   (or: python3.11 -m venv .venv && .venv/bin/pip install -r requirements-training.txt)
+--extra-index-url https://download.pytorch.org/whl/cu130
+torch==2.13.0
+triton==3.7.1
+numpy==2.4.6
+scipy==1.17.1
+scikit-learn==1.9.0
+pillow==12.3.0
+tifffile==2026.3.3
+imagecodecs==2026.3.6
+safetensors==0.8.0
+requests==2.34.2
+numcodecs==0.16.5
+huggingface-hub==0.36.2
+# optional: experiment logging (only used with STUDIO_WANDB=1)
+wandb==0.29.0
