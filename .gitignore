@@ -11,3 +11,10 @@ donor-studio-resunet-scratch-20260926/labels/
 donor-studio-resunet-scratch-20260926/prepared/
 donor-studio-resunet-scratch-20260926/wandb/
 wandb/
+
+studio-multiscroll-cpt-20261023/checkpoints/
+studio-multiscroll-cpt-20261023/progress.json
+expanded9/
+reader-rows/
+reader-v2/
+weights/
