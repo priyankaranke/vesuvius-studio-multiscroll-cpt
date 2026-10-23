@@ -17,6 +17,12 @@ PHerc0814 / PHerc0841 / PHerc0009B sparse labels) **continued for 30,000 updates
 groups, with Studio's own 814 / 841 / 9B data replayed in every batch**. Same architecture, input and inference recipe as
 Studio: `DeepResidualUNet(deeper=False)`, 223,355,921 parameters, 16 native planes in Studio's depth order, 128 px windows.
 
+> **Weight files pending here.** This account's private Hugging Face storage quota was reached on 2026-10-23 ("set up
+> automatic credit recharge to use more storage"), so `model.safetensors` / `model-raw.safetensors` could not be uploaded yet.
+> They are in the private GitHub release
+> [`studio-multiscroll-cpt-20261023`](https://github.com/priyankaranke/vesuvius-studio-multiscroll-cpt/releases/tag/studio-multiscroll-cpt-20261023)
+> (`studio-multiscroll-cpt-20261023-ema.safetensors` = `model.safetensors`, `…-raw.safetensors` = `model-raw.safetensors`; same SHA-256 as below).
+
 * `model.safetensors` — the **EMA** weights at the end of the run (decay 0.9995), SHA-256 `ec1f239a…0606f5`. Recommended.
 * `model-raw.safetensors` — the raw final weights, SHA-256 `6f8c1c49…9db0e9` (equivalent on every metric below).
 * `records/` — run configuration and data mixture, per-update log, every evaluation, check results, review images.
