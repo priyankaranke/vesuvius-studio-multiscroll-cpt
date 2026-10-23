@@ -51,7 +51,48 @@ PHerc0139 0.20 · PHercParis4 0.16 · PHerc0172 0.12 · PHerc1667 0.12 · PHerc0
 * `mixture.json` — rows and group weights (the stage-2 version; the stage history is in `config.json` / `resume.pt`).
 * `eval211.py` — PHerc0211 held-out AP; `check_orientation.py` — depth-order check; `gpu_lease.py` — the host's lease.
 * `prepare_reader.py` — Reader v2 label rows from the public data.
+* `compare211.py` — review sheet; `publish_hf.py` — HF upload; `hf/` — model card and inference package; `reference/` — this run's records.
 * `dashboard/` — `infer_studioms.py` (dashboard-recipe inference with these weights) and `add_studioms_layer.py`
   (adds the layer to a manual-revision viewer).
 
-RESULTS_PLACEHOLDER
+## Results (update 30,000; training finished 2026-10-23 15:48 UTC, 8 h 46 min)
+
+No PHerc0211 pixel was used for training. PHerc0211 = the nine labeled PHerc0211 Label Studio segments (13 Oct labels,
+6.6 M labeled pixels), Studio's published tiling, AP over labeled pixels. Studio holdout = its fixed 841 holdout (69
+supervised patches; noisy).
+
+| | PHerc0211 mean AP | pixel-weighted AP | pooled AP | Studio 841 holdout AP / AUC |
+| --- | ---: | ---: | ---: | ---: |
+| Studio epoch 9 (start) | 0.8306 | 0.8081 | 0.7951 | 0.7656 / 0.8304 |
+| **EMA weights (published `model.safetensors`)** | **0.8417** | **0.8222** | **0.8066** | **0.7791 / 0.8391** |
+| raw weights | 0.8411 | 0.8221 | 0.8067 | 0.7806 / 0.8407 |
+
+7 of 9 segments improve: r005 +0.036, Manual-03 +0.021, pure-will c01 +0.019, 3305 +0.017, pure-will c00 +0.009,
+S302 +0.005, P737m01st3 +0.005; P737x1t −0.006, P824rowsX −0.005 (table in the HF model card; every evaluation in
+`reference/evaluations.json`). Pixel-weighted PHerc0211 AP, raw / EMA: 2k 0.795 / – · 4k 0.811 / 0.812 · 6k 0.809 / 0.817 ·
+8k 0.819 / 0.820 · 10k 0.812 / 0.823 · 20k 0.821 / 0.822 · 30k 0.822 / 0.822 — the gain arrives in the first ~8k
+updates and holds; the final checkpoint was not selected on these labels. Review sheets: `reference/pherc0211-labeled-stock-vs-cpt.png`
+(three labeled segments) and `reference/crop1711-stock-vs-cpt.jpg` (the unlabeled stitched crop 1711 DinoVol revision;
+mean probability 0.129 vs 0.094 — the new model responds over a somewhat wider area).
+
+Run notes: at peak LR 1e-4 the step-2,000 evaluation dipped (PHerc0211 0.795, holdout 0.734) and Studio-scroll training
+losses rose (814 0.51 → 0.59), so from update 2,167 the peak LR is 6e-5 with an EMA (decay 0.9995); `config.json`
+`lr_history` / `data_history` record both restarts. The run was restarted twice by design (stage-2 data at 2,024; LR/EMA at
+2,167), each time from the exact resumable state.
+
+Weights: [HF `paranke/vesuvius-studio-multiscroll-cpt-20261023`](https://huggingface.co/paranke/vesuvius-studio-multiscroll-cpt-20261023)
+(model card and records; the weight files are pending because the HF account's private storage quota was reached on
+2026-10-23) and this repository's [GitHub release `studio-multiscroll-cpt-20261023`](https://github.com/priyankaranke/vesuvius-studio-multiscroll-cpt/releases/tag/studio-multiscroll-cpt-20261023):
+EMA `ec1f239a9764a6f5d5ed8ec5c217db07cc6c524ededa2467adbc4afd0c0606f5`, raw `6f8c1c49bbd11765ecdd178cbd0aa8c4ad34062bf8a6b1bd05b9d9f7129db0e9`.
+
+## Reproduce
+
+1. `../download_data.py` (Studio data) and `hf download paranke/vesuvius-expanded9-training-data --repo-type dataset --local-dir ../../expanded9`.
+2. `hf download domenicor046/reader-v2-labels --repo-type dataset --local-dir ../../reader-v2 && tar -xf ../../reader-v2/reader-v2-dense-native-labels.tar -C ../../reader-v2`,
+   then `python prepare_reader.py --labels ../../reader-v2/reader-v2-labels --manifest ../../reader-v2/manifest.csv --out ../../reader-rows`
+   (~4.5 min, 24 GB; deterministic patch selection).
+3. Studio epoch-9 weights to `../../weights/vesuvius-814-841-9b-resunet-studio-20260926/model.safetensors` (or set `CPT_BASE`).
+4. `PY=python ./run_cpt.sh` (one 96 GB GPU; `STUDIO_GPU_LEASE=0` off the GH200 hosts). To replay this run exactly, run with
+   stage-1 rows (`mixture.json` minus `reader-rows`) and `CPT_PEAK_LR=1e-4` to update 2,024, then the stage-2 `mixture.json`
+   to 2,167, then the defaults.
+5. `python eval211.py --checkpoint checkpoints/model-ema.safetensors` for the PHerc0211 numbers.

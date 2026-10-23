@@ -1,5 +1,11 @@
 # Studio ink model (PHerc0814 / PHerc0841 / PHerc0009B) — training stack
 
+> **2026-10-23: Studio · multi-scroll continued pretraining** — Studio epoch 9 continued on twelve other scroll groups with
+> 814 / 841 / 9B replay in every batch; PHerc0211 held-out AP 0.8081 → 0.8222 (pixel-weighted), Studio 841 holdout kept
+> (0.7656 → 0.7791). See [`studio-multiscroll-cpt-20261023/`](studio-multiscroll-cpt-20261023/README.md). The rest of this
+> README describes the parent Studio stack, unchanged.
+
+
 Everything needed to prepare the training data, train the **Studio** ink model from random initialization, and run
 inference. The model is the `DeepResidualUNet(deeper=False)` (223,355,921 parameters) trained on 2026-09-26/27 on the
 Donor Studio sparse ink/background labels of PHerc0814, PHerc0841 and PHerc0009B (run

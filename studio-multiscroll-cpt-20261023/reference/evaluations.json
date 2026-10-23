@@ -1,0 +1,839 @@
+[
+ {
+  "step": 0,
+  "evaluation": {
+   "pherc0211": {
+    "mean_ap": 0.8306221440555598,
+    "pixel_weighted_ap": 0.8080659815674317,
+    "pooled_ap": 0.7950561414006124,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7632,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8233,
+     "PHerc0211-P737m01st3-grown": 0.8301,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8459,
+     "PHerc0211-P824rowsX-20261012": 0.8574,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9094,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8477,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8273,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.7713
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7656213352052593,
+    "auc": 0.8304216938416705,
+    "scope": "Studio fixed 841 holdout, core 32"
+   }
+  }
+ },
+ {
+  "step": 2000,
+  "evaluation": {
+   "pherc0211": {
+    "mean_ap": 0.823057050953548,
+    "pixel_weighted_ap": 0.7952481828851349,
+    "pooled_ap": 0.7710642426399842,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7395,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8176,
+     "PHerc0211-P737m01st3-grown": 0.8054,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8295,
+     "PHerc0211-P824rowsX-20261012": 0.8381,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9204,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8268,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8443,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.7859
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7342931894252076,
+    "auc": 0.8122233015095705,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "bb44772904f3324755d97d69adb23d2900b96e6bf1906e435ccf75d4aa029f58"
+  }
+ },
+ {
+  "step": 4000,
+  "evaluation": {
+   "pherc0211": {
+    "mean_ap": 0.8321525964365395,
+    "pixel_weighted_ap": 0.8108571052572653,
+    "pooled_ap": 0.798082350631305,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.77,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8412,
+     "PHerc0211-P737m01st3-grown": 0.831,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8501,
+     "PHerc0211-P824rowsX-20261012": 0.854,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9235,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8379,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8166,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.7653
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7572109841745415,
+    "auc": 0.8304311196508555,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "098cc4c97a7e1f1259d739543d9a2815842a704b30c692d9d07d709a1c8a381c"
+  }
+ },
+ {
+  "step": 4000,
+  "evaluation_ema": {
+   "pherc0211": {
+    "mean_ap": 0.8323890335617907,
+    "pixel_weighted_ap": 0.8117197567275033,
+    "pooled_ap": 0.7978594415063106,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7738,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8403,
+     "PHerc0211-P737m01st3-grown": 0.8271,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8457,
+     "PHerc0211-P824rowsX-20261012": 0.8511,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9232,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.831,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8258,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.7735
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7523152299522089,
+    "auc": 0.8247044183432883,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "139139bcf42ecf7bc47c0aaf8e731801d6318bd0db5caf5d742cc75326bf7836",
+   "ema_updates": 1833,
+   "ema_from": 2167
+  }
+ },
+ {
+  "step": 6000,
+  "evaluation": {
+   "pherc0211": {
+    "mean_ap": 0.8316317954742662,
+    "pixel_weighted_ap": 0.8087028617352692,
+    "pooled_ap": 0.789476388236007,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7631,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.83,
+     "PHerc0211-P737m01st3-grown": 0.8208,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8394,
+     "PHerc0211-P824rowsX-20261012": 0.8367,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9143,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8474,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8359,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.7971
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7459037300660193,
+    "auc": 0.8189368183007664,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "98d52c347b63767c7807464ca4a2f7fd9cb417f15ec55cdbc8d3ab7248637f0f"
+  }
+ },
+ {
+  "step": 6000,
+  "evaluation_ema": {
+   "pherc0211": {
+    "mean_ap": 0.8372744158875314,
+    "pixel_weighted_ap": 0.8168555361247188,
+    "pooled_ap": 0.8010293276153386,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7746,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8403,
+     "PHerc0211-P737m01st3-grown": 0.8284,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8343,
+     "PHerc0211-P824rowsX-20261012": 0.847,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9111,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8445,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8527,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8026
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7481792659648869,
+    "auc": 0.8215720995088299,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "b57241b4653579ef6d2582e0a31a77521a890285b2dcae5ef959a319fc9c7f25",
+   "ema_updates": 3833,
+   "ema_from": 2167
+  }
+ },
+ {
+  "step": 8000,
+  "evaluation": {
+   "pherc0211": {
+    "mean_ap": 0.8417175634395603,
+    "pixel_weighted_ap": 0.8184742018399497,
+    "pooled_ap": 0.8044636526095122,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7736,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8434,
+     "PHerc0211-P737m01st3-grown": 0.8325,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.838,
+     "PHerc0211-P824rowsX-20261012": 0.8491,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9347,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8496,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8555,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.7991
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.763093780989333,
+    "auc": 0.8372219668561254,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "cbf94c0538085d4c72a560ed1626314c0f7815a80713b065c66f24a8b78c5c97"
+  }
+ },
+ {
+  "step": 8000,
+  "evaluation_ema": {
+   "pherc0211": {
+    "mean_ap": 0.841394446175037,
+    "pixel_weighted_ap": 0.820407614983514,
+    "pooled_ap": 0.8050600705175688,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7788,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8432,
+     "PHerc0211-P737m01st3-grown": 0.8333,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8368,
+     "PHerc0211-P824rowsX-20261012": 0.847,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9251,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8573,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8469,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8042
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7547137721236069,
+    "auc": 0.8299834263872841,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "9f0ffe0ef9e828046347a7cf15652d90c838048c46eb5a3d004115fed56b48a3",
+   "ema_updates": 5833,
+   "ema_from": 2167
+  }
+ },
+ {
+  "step": 10000,
+  "evaluation": {
+   "pherc0211": {
+    "mean_ap": 0.8350269615087877,
+    "pixel_weighted_ap": 0.8117462522877054,
+    "pooled_ap": 0.796331035529726,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7603,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8333,
+     "PHerc0211-P737m01st3-grown": 0.8258,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8352,
+     "PHerc0211-P824rowsX-20261012": 0.848,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9186,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8548,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8393,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7509177146206374,
+    "auc": 0.8280388237843055,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "c8ab5c7d968d0d74444346f503ead72a7bc06c86d383919f8d349895d7092a91"
+  }
+ },
+ {
+  "step": 10000,
+  "evaluation_ema": {
+   "pherc0211": {
+    "mean_ap": 0.8433550694279549,
+    "pixel_weighted_ap": 0.8228051079816098,
+    "pooled_ap": 0.8069386023218138,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.78,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8457,
+     "PHerc0211-P737m01st3-grown": 0.8322,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8342,
+     "PHerc0211-P824rowsX-20261012": 0.8558,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9292,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8566,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8471,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8093
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7662423971111416,
+    "auc": 0.8398173477215694,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "0356ca450a121e86c4619e171e28bc55327ccd5206a4832844ed5667d672b7c5",
+   "ema_updates": 7833,
+   "ema_from": 2167
+  }
+ },
+ {
+  "step": 12000,
+  "evaluation": {
+   "pherc0211": {
+    "mean_ap": 0.8374197551421809,
+    "pixel_weighted_ap": 0.8169159168324659,
+    "pooled_ap": 0.8013312462890048,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7767,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8403,
+     "PHerc0211-P737m01st3-grown": 0.8253,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.843,
+     "PHerc0211-P824rowsX-20261012": 0.8539,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9081,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8439,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8463,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.7993
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7865125276758917,
+    "auc": 0.849710540566504,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "b5503ee5a04267e3c177598eedc65539ba3646ec987e4c3f1f3a24242e6ed7a0"
+  }
+ },
+ {
+  "step": 12000,
+  "evaluation_ema": {
+   "pherc0211": {
+    "mean_ap": 0.8425045189658986,
+    "pixel_weighted_ap": 0.8215885525194149,
+    "pooled_ap": 0.8056050287693144,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7817,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8439,
+     "PHerc0211-P737m01st3-grown": 0.8325,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8418,
+     "PHerc0211-P824rowsX-20261012": 0.8555,
+     "PHerc0211-S302c1x-r3t-20261012": 0.921,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8624,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8424,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8013
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7658823001689213,
+    "auc": 0.8392380605634988,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "5bec594be325dd2874d91b839f673ffbc26a0a7eaa9312bd2099b88806a343a8",
+   "ema_updates": 9833,
+   "ema_from": 2167
+  }
+ },
+ {
+  "step": 14000,
+  "evaluation": {
+   "pherc0211": {
+    "mean_ap": 0.8330347164435051,
+    "pixel_weighted_ap": 0.8110665166428773,
+    "pooled_ap": 0.7948522002285444,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.761,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8386,
+     "PHerc0211-P737m01st3-grown": 0.8256,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8312,
+     "PHerc0211-P824rowsX-20261012": 0.8417,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9074,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8533,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8399,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.7986
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7730144282392751,
+    "auc": 0.8373970336666764,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "b8472adc6c854ceb9d1dac099608c921d54c39e624ab171d136f6861fbc665e8"
+  }
+ },
+ {
+  "step": 14000,
+  "evaluation_ema": {
+   "pherc0211": {
+    "mean_ap": 0.8415104614888026,
+    "pixel_weighted_ap": 0.8200560445877295,
+    "pooled_ap": 0.8049568664730685,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.777,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8438,
+     "PHerc0211-P737m01st3-grown": 0.8324,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8483,
+     "PHerc0211-P824rowsX-20261012": 0.8535,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9202,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8554,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8421,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8009
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7722678700445662,
+    "auc": 0.8393897894175888,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "cccf30699f47669b66d884919c76ee9c0490865fecda2046bbb4f624619b6fcc",
+   "ema_updates": 11833,
+   "ema_from": 2167
+  }
+ },
+ {
+  "step": 16000,
+  "evaluation": {
+   "pherc0211": {
+    "mean_ap": 0.8382984174458863,
+    "pixel_weighted_ap": 0.8199737186422925,
+    "pooled_ap": 0.8031790627465724,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7751,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8444,
+     "PHerc0211-P737m01st3-grown": 0.836,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8283,
+     "PHerc0211-P824rowsX-20261012": 0.8465,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9122,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8593,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.837,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8059
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7627680020111716,
+    "auc": 0.8301011874060014,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "97b33b7e35e9b707a50ba3b2b4750c335c1959a4697e3ec29175291eca28fdc9"
+  }
+ },
+ {
+  "step": 16000,
+  "evaluation_ema": {
+   "pherc0211": {
+    "mean_ap": 0.8410745662043602,
+    "pixel_weighted_ap": 0.8209719268292395,
+    "pooled_ap": 0.8053727076417901,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7754,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8447,
+     "PHerc0211-P737m01st3-grown": 0.836,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8443,
+     "PHerc0211-P824rowsX-20261012": 0.8528,
+     "PHerc0211-S302c1x-r3t-20261012": 0.914,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8525,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8453,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8046
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7759721970363815,
+    "auc": 0.839518853051684,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "6007cb07d508343edd5a9703104f58d6d8ab1aa2db81a7e0bf1557694f35a394",
+   "ema_updates": 13833,
+   "ema_from": 2167
+  }
+ },
+ {
+  "step": 18000,
+  "evaluation": {
+   "pherc0211": {
+    "mean_ap": 0.8401470762275917,
+    "pixel_weighted_ap": 0.8193439516460084,
+    "pooled_ap": 0.8046454533495189,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7707,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8426,
+     "PHerc0211-P737m01st3-grown": 0.8339,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8406,
+     "PHerc0211-P824rowsX-20261012": 0.8532,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9117,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8619,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8405,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8063
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7716236430820833,
+    "auc": 0.8389185889422033,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "f8c6a84fa0c08c53973392dd67bbad820480196d6734f34f408d6837a5abcbd0"
+  }
+ },
+ {
+  "step": 18000,
+  "evaluation_ema": {
+   "pherc0211": {
+    "mean_ap": 0.8416509186444237,
+    "pixel_weighted_ap": 0.8217820985265015,
+    "pooled_ap": 0.8060949972337446,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7756,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8439,
+     "PHerc0211-P737m01st3-grown": 0.8371,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8433,
+     "PHerc0211-P824rowsX-20261012": 0.8536,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9168,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8552,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8425,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8068
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7703808854855518,
+    "auc": 0.8367151820496224,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "d5b96ca967fc94acf33da436747c3a846bd8e4bda7bcaa28f7a033b04e970a2d",
+   "ema_updates": 15833,
+   "ema_from": 2167
+  }
+ },
+ {
+  "step": 20000,
+  "evaluation": {
+   "pherc0211": {
+    "mean_ap": 0.8417136133143317,
+    "pixel_weighted_ap": 0.8207749789924943,
+    "pooled_ap": 0.8067452198969783,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7802,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8386,
+     "PHerc0211-P737m01st3-grown": 0.8309,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8422,
+     "PHerc0211-P824rowsX-20261012": 0.8469,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9205,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.858,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8473,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8107
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7781507913248066,
+    "auc": 0.8416348481243222,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "600125df781d8e80d8cbc65d0549c1f8d80e2296c80d80336c7ab355a8906a9b"
+  }
+ },
+ {
+  "step": 20000,
+  "evaluation_ema": {
+   "pherc0211": {
+    "mean_ap": 0.8410352459721083,
+    "pixel_weighted_ap": 0.822043586501621,
+    "pooled_ap": 0.8073094300662358,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.778,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8434,
+     "PHerc0211-P737m01st3-grown": 0.8351,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8403,
+     "PHerc0211-P824rowsX-20261012": 0.8528,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9141,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8563,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.84,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8094
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7761089725224622,
+    "auc": 0.8406980711647116,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "0c20c6d7f6212664913d5050edf800a015d132b923456e11aa5264fc14b6486a",
+   "ema_updates": 17833,
+   "ema_from": 2167
+  }
+ },
+ {
+  "step": 22000,
+  "evaluation": {
+   "pherc0211": {
+    "mean_ap": 0.840119309716365,
+    "pixel_weighted_ap": 0.8198978654815741,
+    "pooled_ap": 0.8037970228813682,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7762,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8408,
+     "PHerc0211-P737m01st3-grown": 0.8302,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8328,
+     "PHerc0211-P824rowsX-20261012": 0.8481,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9052,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8599,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8547,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.813
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7700948133775072,
+    "auc": 0.8330825186819666,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "7503af018fa53aea4197cbbbbc0741196c076c51a7ed7274ae251358e360f975"
+  }
+ },
+ {
+  "step": 22000,
+  "evaluation_ema": {
+   "pherc0211": {
+    "mean_ap": 0.8415023265535193,
+    "pixel_weighted_ap": 0.8221270909033421,
+    "pooled_ap": 0.8067433938617591,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.778,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8424,
+     "PHerc0211-P737m01st3-grown": 0.8353,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8394,
+     "PHerc0211-P824rowsX-20261012": 0.8529,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9151,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8586,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.842,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8097
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7754065139289535,
+    "auc": 0.8392497241855474,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "eaafd266cd087590e51fc2f209669eda48ac07a296b9e08b86695319e9164021",
+   "ema_updates": 19833,
+   "ema_from": 2167
+  }
+ },
+ {
+  "step": 24000,
+  "evaluation": {
+   "pherc0211": {
+    "mean_ap": 0.8411775079293375,
+    "pixel_weighted_ap": 0.8205148389064658,
+    "pooled_ap": 0.8035522698016602,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7761,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8405,
+     "PHerc0211-P737m01st3-grown": 0.8332,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8402,
+     "PHerc0211-P824rowsX-20261012": 0.8491,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9137,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8615,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8464,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8099
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7776209716631552,
+    "auc": 0.8396369643647079,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "d287b5a4960e0707872f8afbb3f0f0c04701e81762a8dd7cd671ebeac9ea77a5"
+  }
+ },
+ {
+  "step": 24000,
+  "evaluation_ema": {
+   "pherc0211": {
+    "mean_ap": 0.8415786741685564,
+    "pixel_weighted_ap": 0.8218248480200853,
+    "pooled_ap": 0.8056634751523153,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7775,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.843,
+     "PHerc0211-P737m01st3-grown": 0.8345,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8407,
+     "PHerc0211-P824rowsX-20261012": 0.8513,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9121,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8591,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8453,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8106
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7762679468443248,
+    "auc": 0.8382964330454169,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "d2033132ad8b36fd3baf37347a9a1fcb257a777d5d6a4d8bea2af454cbba2803",
+   "ema_updates": 21833,
+   "ema_from": 2167
+  }
+ },
+ {
+  "step": 26000,
+  "evaluation": {
+   "pherc0211": {
+    "mean_ap": 0.8417311007814435,
+    "pixel_weighted_ap": 0.8223790223188053,
+    "pooled_ap": 0.805763751341409,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7807,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.843,
+     "PHerc0211-P737m01st3-grown": 0.8345,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8404,
+     "PHerc0211-P824rowsX-20261012": 0.8529,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9148,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8542,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8467,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8085
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7844778445324903,
+    "auc": 0.8425208977549024,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "82fc372a8816b9eefe476208bcbae052e5194ffa39dcf8b2d632200c42f85473"
+  }
+ },
+ {
+  "step": 26000,
+  "evaluation_ema": {
+   "pherc0211": {
+    "mean_ap": 0.8423223227212114,
+    "pixel_weighted_ap": 0.822173166034555,
+    "pooled_ap": 0.8059192184425765,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7789,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.843,
+     "PHerc0211-P737m01st3-grown": 0.8348,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8406,
+     "PHerc0211-P824rowsX-20261012": 0.8513,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9171,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8593,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8464,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8095
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7767113762292661,
+    "auc": 0.838723979565797,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "5fce4248e20aa3874a71e0e5ea720a7b3ec6c3b7e02565c6658bf480eeda4c9d",
+   "ema_updates": 23833,
+   "ema_from": 2167
+  }
+ },
+ {
+  "step": 28000,
+  "evaluation": {
+   "pherc0211": {
+    "mean_ap": 0.8419360042325488,
+    "pixel_weighted_ap": 0.8223495204793734,
+    "pooled_ap": 0.8069554624539533,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7804,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8443,
+     "PHerc0211-P737m01st3-grown": 0.8349,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8395,
+     "PHerc0211-P824rowsX-20261012": 0.854,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9132,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8578,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.847,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8063
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7784995923049176,
+    "auc": 0.8384701383144888,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "aa30e86a7ecc8e68c297aeb87c29d80f1fc5e39805cd92457da818734733e8c0"
+  }
+ },
+ {
+  "step": 28000,
+  "evaluation_ema": {
+   "pherc0211": {
+    "mean_ap": 0.8424443007455014,
+    "pixel_weighted_ap": 0.822585398609237,
+    "pooled_ap": 0.8065498513432297,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7797,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8434,
+     "PHerc0211-P737m01st3-grown": 0.8348,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8397,
+     "PHerc0211-P824rowsX-20261012": 0.8524,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9143,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8598,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8478,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8101
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7773791032344083,
+    "auc": 0.8383055299850233,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "2d2ebe5c1c63a67ade925162c13d7803929316a59870e94fbd7e1a5fa538c71f",
+   "ema_updates": 25833,
+   "ema_from": 2167
+  }
+ },
+ {
+  "step": 30000,
+  "evaluation": {
+   "pherc0211": {
+    "mean_ap": 0.8411075945988965,
+    "pixel_weighted_ap": 0.8220788903346178,
+    "pooled_ap": 0.8067132748282023,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.7801,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8442,
+     "PHerc0211-P737m01st3-grown": 0.8342,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8383,
+     "PHerc0211-P824rowsX-20261012": 0.8529,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9144,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8539,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8444,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8076
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7805745190470772,
+    "auc": 0.8407381621874124,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "6f8c1c49bbd11765ecdd178cbd0aa8c4ad34062bf8a6b1bd05b9d9f7129db0e9"
+  }
+ },
+ {
+  "step": 30000,
+  "evaluation_ema": {
+   "pherc0211": {
+    "mean_ap": 0.841729682283916,
+    "pixel_weighted_ap": 0.8221795559815177,
+    "pooled_ap": 0.8066118507759205,
+    "segments": {
+     "PHerc0211-3305-r002-c01-manual-20261008-203736": 0.78,
+     "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa": 0.8439,
+     "PHerc0211-P737m01st3-grown": 0.8346,
+     "PHerc0211-P737x1t-wplus1r-20261012": 0.8397,
+     "PHerc0211-P824rowsX-20261012": 0.8527,
+     "PHerc0211-S302c1x-r3t-20261012": 0.9144,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01": 0.8565,
+     "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00": 0.8462,
+     "PHerc0211-r005-c01-manual-20261008-195107": 0.8076
+    }
+   },
+   "studio_holdout": {
+    "ap": 0.7791059466191059,
+    "auc": 0.8390767366448709,
+    "scope": "Studio fixed 841 holdout, core 32"
+   },
+   "checkpoint_sha256": "ec1f239a9764a6f5d5ed8ec5c217db07cc6c524ededa2467adbc4afd0c0606f5",
+   "ema_updates": 27833,
+   "ema_from": 2167
+  }
+ }
+]

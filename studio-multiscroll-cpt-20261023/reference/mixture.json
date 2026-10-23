@@ -1,0 +1,181 @@
+{
+ "note": "Stage 1 (updates 0-~2000): Expanded9 corpus rows of other scrolls. Stage 2 (from the restart after the step-2000 evaluation): +47 Reader v2/v3 label rows (PHerc0139 x20, PHerc0500P2 x18, PHerc0343P x5, PHerc0172 x4). Weights are per scroll group, renormalized over groups present.",
+ "groups": {
+  "PHerc0139": {
+   "scrolls": [
+    "PHerc0139"
+   ],
+   "weight": 0.2,
+   "why": "9.362 um / 113 keV native scan, same setup as PHerc0211 (14 Expanded9 rows + 20 Reader v2 rows)"
+  },
+  "PHerc0500P2": {
+   "scrolls": [
+    "PHerc0500P2"
+   ],
+   "weight": 0.1,
+   "why": "9.362 um / 113 keV native scan, same setup as PHerc0211 (Expanded9 row + 18 Reader v2 rows)"
+  },
+  "PHerc0343P": {
+   "scrolls": [
+    "PHerc0343P"
+   ],
+   "weight": 0.06,
+   "why": "8.64 um / 116 keV (5 Reader v2 rows; the 6th has 1% ink and an ambiguous depth-order check)"
+  },
+  "PHercParis4": {
+   "scrolls": [
+    "PHercParis4"
+   ],
+   "weight": 0.16,
+   "why": "Scroll 1, largest human-label corpus"
+  },
+  "PHerc0172": {
+   "scrolls": [
+    "PHerc0172"
+   ],
+   "weight": 0.12,
+   "why": "Scroll 5"
+  },
+  "PHerc1667": {
+   "scrolls": [
+    "PHerc1667"
+   ],
+   "weight": 0.12,
+   "why": "PHerc1667 official ink9 + fragment 5"
+  },
+  "fragments": {
+   "scrolls": [
+    "PHercParis1",
+    "PHercParis2",
+    "PHerc0051"
+   ],
+   "weight": 0.06,
+   "why": "exposed fragments 1-3, 6 (fragment 4 dropped: depth order ambiguous)"
+  },
+  "PHercMAN5": {
+   "scrolls": [
+    "PHercMAN5"
+   ],
+   "weight": 0.02,
+   "why": "single 1.9k-patch row"
+  }
+ },
+ "rows": [
+  "../../expanded9/prepared/fragment1-exposed",
+  "../../expanded9/prepared/fragment2-exposed",
+  "../../expanded9/prepared/fragment3-exposed",
+  "../../expanded9/prepared/fragment5-exposed",
+  "../../expanded9/prepared/fragment6-exposed",
+  "../../expanded9/prepared/official-0500p2",
+  "../../expanded9/prepared/official-man5",
+  "../../expanded9/prepared/pherc0139-w016",
+  "../../expanded9/prepared/pherc0139-w017",
+  "../../expanded9/prepared/pherc0139-w028",
+  "../../expanded9/prepared/pherc0139-w029",
+  "../../expanded9/prepared/pherc0139-w035",
+  "../../expanded9/prepared/pherc0139-w039",
+  "../../expanded9/prepared/pherc0139-w040",
+  "../../expanded9/prepared/pherc0139-w041",
+  "../../expanded9/prepared/pherc0139-w043",
+  "../../expanded9/prepared/pherc1667-w013",
+  "../../expanded9/prepared/pherc1667-w018",
+  "../../expanded9/prepared/pherc1667-w023",
+  "../../expanded9/prepared/pherc1667-w028",
+  "../../expanded9/prepared/pherc1667-w029",
+  "../../expanded9/prepared/pherc1667-w031",
+  "../../expanded9/prepared/phercparis4-w00",
+  "../../expanded9/prepared/phercparis4-w01",
+  "../../expanded9/prepared/phercparis4-w02",
+  "../../expanded9/prepared/phercparis4-w03",
+  "../../expanded9/prepared/phercparis4-w05",
+  "../../expanded9/prepared/phercparis4-w06",
+  "../../expanded9/prepared/phercparis4-w07",
+  "../../expanded9/prepared/phercparis4-w09",
+  "../../expanded9/prepared/repo-20230522215721",
+  "../../expanded9/prepared/repo-20230531193658",
+  "../../expanded9/prepared/repo-20230702185753",
+  "../../expanded9/prepared/repo-20230820203112",
+  "../../expanded9/prepared/repo-20230826170124",
+  "../../expanded9/prepared/repo-20230902141231",
+  "../../expanded9/prepared/repo-20230903193206",
+  "../../expanded9/prepared/repo-20230929220926",
+  "../../expanded9/prepared/repo-20231005123336",
+  "../../expanded9/prepared/repo-20231007101615",
+  "../../expanded9/prepared/repo-20231012184423",
+  "../../expanded9/prepared/repo-20231016151000",
+  "../../expanded9/prepared/repo-20231022170901",
+  "../../expanded9/prepared/repo-20231031143850",
+  "../../expanded9/prepared/repo-20231106155351",
+  "../../expanded9/prepared/repo-20231210121321",
+  "../../expanded9/prepared/repo-20231221180251",
+  "../../expanded9/prepared/repo-20240218140920",
+  "../../expanded9/prepared/repo-20240221073650",
+  "../../expanded9/prepared/repo-20240222111510",
+  "../../expanded9/prepared/repo-20240223130140",
+  "../../expanded9/prepared/repo-20241025145341",
+  "../../expanded9/prepared/repo-20241025145701",
+  "../../expanded9/prepared/repo-20241025150211",
+  "../../expanded9/prepared/repo-20241028121111",
+  "../../expanded9/prepared/repo-20241030152031",
+  "../../expanded9/prepared/repo-20241102125650",
+  "../../expanded9/prepared/repo-20241102160330",
+  "../../expanded9/prepared/repo-20241108111522",
+  "../../expanded9/prepared/repo-20241108115232",
+  "../../expanded9/prepared/repo-20241108120732",
+  "../../expanded9/prepared/repo-20241113070770",
+  "../../expanded9/prepared/repo-20241113080880",
+  "../../expanded9/prepared/repo-20241113090990",
+  "../../expanded9/prepared/w035",
+  "../../expanded9/prepared/w039",
+  "../../expanded9/prepared/w040",
+  "../../expanded9/prepared/w041",
+  "../../expanded9/prepared/w044",
+  "../../reader-rows/reader-0139-20250108000000-w025_2025010863",
+  "../../reader-rows/reader-0139-20250108000001-w026_2025010854",
+  "../../reader-rows/reader-0139-20250108000002-w027_2025010845",
+  "../../reader-rows/reader-0139-20250108000003-w028_2025010836",
+  "../../reader-rows/reader-0139-20250108000005-w030_2025010818",
+  "../../reader-rows/reader-0139-20250223000000-w059_2025022312",
+  "../../reader-rows/reader-0139-20251226000000-w055_2025122611",
+  "../../reader-rows/reader-0139-20260112000000-w043_2026011217",
+  "../../reader-rows/reader-0139-20260115000001-w056_2026011514",
+  "../../reader-rows/reader-0139-20260126000000-w045_2026012619",
+  "../../reader-rows/reader-0139-20260127000000-w057_2026012713",
+  "../../reader-rows/reader-0139-20260130000000-w031_2026013019",
+  "../../reader-rows/reader-0139-20260203000000-w032_2026020303",
+  "../../reader-rows/reader-0139-20260206000000-w042_2026020613",
+  "../../reader-rows/reader-0139-20260206000002-w054_2026020617",
+  "../../reader-rows/reader-0139-20260210000000-w058_2026021020",
+  "../../reader-rows/reader-0139-20260219000000-w033_2026021913",
+  "../../reader-rows/reader-0139-20260219000001-w048_2026021912",
+  "../../reader-rows/reader-0139-20260227000000-w052_2026022705",
+  "../../reader-rows/reader-0139-20260302000001-w050_2026030220",
+  "../../reader-rows/reader-0172-20250917143559-w062_20250917143559205_fl",
+  "../../reader-rows/reader-0172-20250926112011-w078_20250926112011918_fl",
+  "../../reader-rows/reader-0172-20250926113336-w079_20250926113336891_fl",
+  "../../reader-rows/reader-0172-20250926114310-w080_20250926114310705_fl",
+  "../../reader-rows/reader-0343P-20250511003658-tifxyz",
+  "../../reader-rows/reader-0343P-20250902170435--5_b2",
+  "../../reader-rows/reader-0343P-20250902170441--4_b2",
+  "../../reader-rows/reader-0343P-20250902170447--3_b2",
+  "../../reader-rows/reader-0343P-20250902171202--2_b2",
+  "../../reader-rows/reader-0500P2-20250609204953-z_dbg_gen_00612",
+  "../../reader-rows/reader-0500P2-20250611132918-z_dbg_gen_00302_inp_hr",
+  "../../reader-rows/reader-0500P2-20250611133823-z_dbg_gen_00130_inp_hr",
+  "../../reader-rows/reader-0500P2-20250611134135-z_dbg_gen_00331_inp_hr",
+  "../../reader-rows/reader-0500P2-20250611153340-z_dbg_gen_00275",
+  "../../reader-rows/reader-0500P2-20250611153346-z_dbg_gen_00286_inp_hr",
+  "../../reader-rows/reader-0500P2-20250611153347-z_dbg_gen_00105_inp_hr",
+  "../../reader-rows/reader-0500P2-20250611154256-z_dbg_gen_00354_inp_hr",
+  "../../reader-rows/reader-0500P2-20250611161023-z_dbg_gen_00205_inp_hr",
+  "../../reader-rows/reader-0500P2-20250611161415-z_dbg_gen_00411_inp_hr",
+  "../../reader-rows/reader-0500P2-20250611170257-z_dbg_gen_00308_inp_hr",
+  "../../reader-rows/reader-0500P2-20250611171318-z_dbg_gen_00440_inp_hr",
+  "../../reader-rows/reader-0500P2-20250611171745-z_dbg_gen_00225_inp_hr",
+  "../../reader-rows/reader-0500P2-20250611172135-z_dbg_gen_00346_inp_hr",
+  "../../reader-rows/reader-0500P2-20250611173014-z_dbg_gen_00506_inp_hr",
+  "../../reader-rows/reader-0500P2-20250628074500-500P2_front",
+  "../../reader-rows/reader-0500P2-20250716055227-z_dbg_gen_00260_inp_hr",
+  "../../reader-rows/reader-0500P2-20250716055228-z_dbg_gen_00333_inp_hr"
+ ]
+}

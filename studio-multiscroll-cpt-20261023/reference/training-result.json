@@ -1,0 +1,133 @@
+{
+  "status": "complete",
+  "run_id": "studio-multiscroll-cpt-20261023",
+  "global_step": 30000,
+  "model_sha256": "6f8c1c49bbd11765ecdd178cbd0aa8c4ad34062bf8a6b1bd05b9d9f7129db0e9",
+  "ema_model_sha256": "ec1f239a9764a6f5d5ed8ec5c217db07cc6c524ededa2467adbc4afd0c0606f5",
+  "best_pherc0211": {
+    "step": 26000,
+    "pherc0211_pixel_weighted_ap": 0.8223790223188053,
+    "file": "step-026000.safetensors"
+  },
+  "best_pherc0211_ema": {
+    "step": 10000,
+    "pherc0211_pixel_weighted_ap": 0.8228051079816098,
+    "file": "ema-010000.safetensors"
+  },
+  "config": {
+    "run_id": "studio-multiscroll-cpt-20261023",
+    "initialization": "Studio epoch-9 weights (paranke/vesuvius-814-841-9b-resunet-studio-20260926), fresh AdamW",
+    "base_sha256": "ffffbf4fcb2f1eb91940a6899366cd0d22b2ea03987270d07dc2a205dbd91145",
+    "architecture_class": "DeepResidualUNet(deeper=False)",
+    "parameters": 223355921,
+    "total_updates": 30000,
+    "peak_lr": 6e-05,
+    "warmup_updates": 600,
+    "lr_floor_fraction": 0.02,
+    "weight_decay": 0.01,
+    "gradient_clip_norm": 1.0,
+    "effective_batch": 64,
+    "microbatch": 16,
+    "replay_per_update": 20,
+    "replay_scrolls": [
+      "PHerc0814",
+      "PHerc0841",
+      "PHerc0009B"
+    ],
+    "precision": "bfloat16",
+    "implementation": "torch.compile(dynamic=False)",
+    "augmentation": "Studio sparse_data.augment (scroll-shift-v2), unchanged",
+    "loss": "Studio masked 0.5 BCE + 0.5 Dice central 96, contributing-example average, unchanged",
+    "input_depth": 16,
+    "model_window": 128,
+    "groups": {
+      "PHerc0139": {
+        "scrolls": [
+          "PHerc0139"
+        ],
+        "weight": 0.2,
+        "why": "9.362 um / 113 keV native scan, same setup as PHerc0211 (14 Expanded9 rows + 20 Reader v2 rows)"
+      },
+      "PHerc0500P2": {
+        "scrolls": [
+          "PHerc0500P2"
+        ],
+        "weight": 0.1,
+        "why": "9.362 um / 113 keV native scan, same setup as PHerc0211 (Expanded9 row + 18 Reader v2 rows)"
+      },
+      "PHerc0343P": {
+        "scrolls": [
+          "PHerc0343P"
+        ],
+        "weight": 0.06,
+        "why": "8.64 um / 116 keV (5 Reader v2 rows; the 6th has 1% ink and an ambiguous depth-order check)"
+      },
+      "PHercParis4": {
+        "scrolls": [
+          "PHercParis4"
+        ],
+        "weight": 0.16,
+        "why": "Scroll 1, largest human-label corpus"
+      },
+      "PHerc0172": {
+        "scrolls": [
+          "PHerc0172"
+        ],
+        "weight": 0.12,
+        "why": "Scroll 5"
+      },
+      "PHerc1667": {
+        "scrolls": [
+          "PHerc1667"
+        ],
+        "weight": 0.12,
+        "why": "PHerc1667 official ink9 + fragment 5"
+      },
+      "fragments": {
+        "scrolls": [
+          "PHercParis1",
+          "PHercParis2",
+          "PHerc0051"
+        ],
+        "weight": 0.06,
+        "why": "exposed fragments 1-3, 6 (fragment 4 dropped: depth order ambiguous)"
+      },
+      "PHercMAN5": {
+        "scrolls": [
+          "PHercMAN5"
+        ],
+        "weight": 0.02,
+        "why": "single 1.9k-patch row"
+      }
+    },
+    "eval_every": 2000,
+    "sampler_seed": 2026102301,
+    "augmentation_seed": 2026102302,
+    "training_seed": 2026102303,
+    "studio_data_sha256": "01eecf6db026fe9397513854ce4f6fe7b85b7738c023c40ed0294d38bda41a7f",
+    "ema_decay": 0.9995,
+    "ema": "EMA of all parameters, decay min(ema_decay,(1+n)/(10+n)) over the n updates since it started; evaluated and exported next to the raw weights",
+    "learning_rate_formula": "peak*min(1,(step+1)/600)*(0.02+(1-0.02)*(1+cos(pi*min(step,T)/T))/2), T=30000; peak per lr_history",
+    "lr_history": [
+      {
+        "from_update": 0,
+        "peak_lr": 0.0001
+      },
+      {
+        "from_update": 2167,
+        "peak_lr": 6e-05
+      }
+    ],
+    "data_history": [
+      {
+        "from_update": 0,
+        "rows": 69
+      },
+      {
+        "from_update": 2024,
+        "rows": 116
+      }
+    ]
+  },
+  "wall_seconds": 31010.77205217007
+}

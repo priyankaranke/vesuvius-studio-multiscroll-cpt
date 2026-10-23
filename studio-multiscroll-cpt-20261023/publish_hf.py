@@ -28,8 +28,9 @@ def main():
         if (HERE / name).exists(): shutil.copy2(HERE / name, stage / 'records' / name)
     evaluations = [json.loads(l) for l in (HERE / 'training.jsonl').read_text().splitlines() if '"evaluation' in l]
     (stage / 'records' / 'evaluations.json').write_text(json.dumps(evaluations, indent=1) + '\n')
-    for f in (HERE.parent.parent / 'evals').glob('*.json'):
-        shutil.copy2(f, stage / 'records' / f.name)
+    for pattern in ('*.json', '*.png', '*.jpg'):
+        for f in (HERE.parent.parent / 'evals').glob(pattern):
+            shutil.copy2(f, stage / 'records' / f.name)
     (stage / 'records' / 'files.json').write_text(json.dumps(hashes, indent=1) + '\n')
     from huggingface_hub import HfApi
     api = HfApi(token=token); api.create_repo(a.repo, private=True, exist_ok=True, repo_type='model')

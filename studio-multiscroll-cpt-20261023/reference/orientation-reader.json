@@ -1,0 +1,434 @@
+[
+  {
+    "id": "reader-0139-20250108000000-w025_2025010863",
+    "scroll": "PHerc0139",
+    "patches": 64,
+    "forward": 0.8824322309993864,
+    "ink_fraction": 0.3371327181583798,
+    "reverse": 0.3778846136019913,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0139-20250108000001-w026_2025010854",
+    "scroll": "PHerc0139",
+    "patches": 64,
+    "forward": 0.47118609552923096,
+    "ink_fraction": 0.13272492528212115,
+    "reverse": 0.15363202845324656,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0139-20250108000002-w027_2025010845",
+    "scroll": "PHerc0139",
+    "patches": 64,
+    "forward": 0.777094810639218,
+    "ink_fraction": 0.25682377437062276,
+    "reverse": 0.2598849270584205,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0139-20250108000003-w028_2025010836",
+    "scroll": "PHerc0139",
+    "patches": 64,
+    "forward": 0.39135305175189555,
+    "ink_fraction": 0.09402590599991516,
+    "reverse": 0.07323779410668112,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0139-20250108000005-w030_2025010818",
+    "scroll": "PHerc0139",
+    "patches": 64,
+    "forward": 0.6928148890688337,
+    "ink_fraction": 0.2538351473071871,
+    "reverse": 0.3814350920880432,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0139-20250223000000-w059_2025022312",
+    "scroll": "PHerc0139",
+    "patches": 64,
+    "forward": 0.46869935710553123,
+    "ink_fraction": 0.18402681232306908,
+    "reverse": 0.21917619459812937,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0139-20251226000000-w055_2025122611",
+    "scroll": "PHerc0139",
+    "patches": 64,
+    "forward": 0.3467626103410535,
+    "ink_fraction": 0.1485860784812085,
+    "reverse": 0.1929623801489599,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0139-20260112000000-w043_2026011217",
+    "scroll": "PHerc0139",
+    "patches": 64,
+    "forward": 0.6545805503578441,
+    "ink_fraction": 0.27107134419132833,
+    "reverse": 0.25719022615059006,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0139-20260115000001-w056_2026011514",
+    "scroll": "PHerc0139",
+    "patches": 64,
+    "forward": 0.29564866210303486,
+    "ink_fraction": 0.13627881846386936,
+    "reverse": 0.11524654168098294,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0139-20260126000000-w045_2026012619",
+    "scroll": "PHerc0139",
+    "patches": 64,
+    "forward": 0.5308117547063713,
+    "ink_fraction": 0.1882222317438258,
+    "reverse": 0.14737460405275882,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0139-20260127000000-w057_2026012713",
+    "scroll": "PHerc0139",
+    "patches": 64,
+    "forward": 0.1542165741137971,
+    "ink_fraction": 0.10463991679091285,
+    "reverse": 0.13795096528767814,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0139-20260130000000-w031_2026013019",
+    "scroll": "PHerc0139",
+    "patches": 64,
+    "forward": 0.661496581195509,
+    "ink_fraction": 0.23573158891894694,
+    "reverse": 0.2970109052387309,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0139-20260203000000-w032_2026020303",
+    "scroll": "PHerc0139",
+    "patches": 64,
+    "forward": 0.738574984499227,
+    "ink_fraction": 0.31408691711013764,
+    "reverse": 0.2932994134706517,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0139-20260206000000-w042_2026020613",
+    "scroll": "PHerc0139",
+    "patches": 64,
+    "forward": 0.5168323880070663,
+    "ink_fraction": 0.22528579220964456,
+    "reverse": 0.1909080920820788,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0139-20260206000002-w054_2026020617",
+    "scroll": "PHerc0139",
+    "patches": 64,
+    "forward": 0.4103977980575471,
+    "ink_fraction": 0.10315155878542466,
+    "reverse": 0.07609541480678965,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0139-20260210000000-w058_2026021020",
+    "scroll": "PHerc0139",
+    "patches": 64,
+    "forward": 0.6060939401039145,
+    "ink_fraction": 0.1606769440256772,
+    "reverse": 0.1546404873516282,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0139-20260219000000-w033_2026021913",
+    "scroll": "PHerc0139",
+    "patches": 64,
+    "forward": 0.738203283269881,
+    "ink_fraction": 0.32541778132925686,
+    "reverse": 0.31953563152007025,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0139-20260219000001-w048_2026021912",
+    "scroll": "PHerc0139",
+    "patches": 64,
+    "forward": 0.5147264659260792,
+    "ink_fraction": 0.11204989302135021,
+    "reverse": 0.16028203212232756,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0139-20260227000000-w052_2026022705",
+    "scroll": "PHerc0139",
+    "patches": 64,
+    "forward": 0.5432000561057734,
+    "ink_fraction": 0.13267594564214105,
+    "reverse": 0.3054830857190694,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0139-20260302000001-w050_2026030220",
+    "scroll": "PHerc0139",
+    "patches": 64,
+    "forward": 0.23704298694840967,
+    "ink_fraction": 0.06110490071730049,
+    "reverse": 0.07067356418500575,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0172-20250917143559-w062_20250917143559205_fl",
+    "scroll": "PHerc0172",
+    "patches": 64,
+    "forward": 0.6743152866764472,
+    "ink_fraction": 0.3651597949261636,
+    "reverse": 0.36283269924038636,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0172-20250926112011-w078_20250926112011918_fl",
+    "scroll": "PHerc0172",
+    "patches": 64,
+    "forward": 0.7024585836350451,
+    "ink_fraction": 0.4145706272537061,
+    "reverse": 0.5782203705708197,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0172-20250926113336-w079_20250926113336891_fl",
+    "scroll": "PHerc0172",
+    "patches": 64,
+    "forward": 0.7569067743974313,
+    "ink_fraction": 0.4285871692364443,
+    "reverse": 0.6175527914242721,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0172-20250926114310-w080_20250926114310705_fl",
+    "scroll": "PHerc0172",
+    "patches": 64,
+    "forward": 0.8070752589941605,
+    "ink_fraction": 0.47557538993902915,
+    "reverse": 0.5999820250159866,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0343P-20250511003658-tifxyz",
+    "scroll": "PHerc0343P",
+    "patches": 64,
+    "forward": 0.23821662819856804,
+    "ink_fraction": 0.14476651255857215,
+    "reverse": 0.1581459359023089,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0343P-20250902170435--5_b2",
+    "scroll": "PHerc0343P",
+    "patches": 64,
+    "forward": 0.6120401011054802,
+    "ink_fraction": 0.13255658285570848,
+    "reverse": 0.1890924540506022,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0343P-20250902170441--4_b2",
+    "scroll": "PHerc0343P",
+    "patches": 64,
+    "forward": 0.4739897600549405,
+    "ink_fraction": 0.08583952860413673,
+    "reverse": 0.09756148671377841,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0343P-20250902170447--3_b2",
+    "scroll": "PHerc0343P",
+    "patches": 64,
+    "forward": 0.06313319773806712,
+    "ink_fraction": 0.01999278743541811,
+    "reverse": 0.025282912489921688,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0343P-20250902171202--2_b2",
+    "scroll": "PHerc0343P",
+    "patches": 64,
+    "forward": 0.23623801918908027,
+    "ink_fraction": 0.08135083508078478,
+    "reverse": 0.12095607134866108,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0343P-20250902171204--1_b2",
+    "scroll": "PHerc0343P",
+    "patches": 64,
+    "forward": 0.024443673216467107,
+    "ink_fraction": 0.014558467738237393,
+    "reverse": 0.029107636086700396,
+    "forward_better": false
+  },
+  {
+    "id": "reader-0500P2-20250609204953-z_dbg_gen_00612",
+    "scroll": "PHerc0500P2",
+    "patches": 64,
+    "forward": 0.4298625801999509,
+    "ink_fraction": 0.13215045506323095,
+    "reverse": 0.11818285273653788,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0500P2-20250611132918-z_dbg_gen_00302_inp_hr",
+    "scroll": "PHerc0500P2",
+    "patches": 64,
+    "forward": 0.47172294009698035,
+    "ink_fraction": 0.19422089722224548,
+    "reverse": 0.2895603796035274,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0500P2-20250611133823-z_dbg_gen_00130_inp_hr",
+    "scroll": "PHerc0500P2",
+    "patches": 64,
+    "forward": 0.3053440159116234,
+    "ink_fraction": 0.126199486553257,
+    "reverse": 0.09499519237607061,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0500P2-20250611134135-z_dbg_gen_00331_inp_hr",
+    "scroll": "PHerc0500P2",
+    "patches": 64,
+    "forward": 0.4305194543772473,
+    "ink_fraction": 0.15678153190558555,
+    "reverse": 0.1456470973473478,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0500P2-20250611153340-z_dbg_gen_00275",
+    "scroll": "PHerc0500P2",
+    "patches": 64,
+    "forward": 0.18853103948349986,
+    "ink_fraction": 0.12819773988043207,
+    "reverse": 0.11755628202343656,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0500P2-20250611153346-z_dbg_gen_00286_inp_hr",
+    "scroll": "PHerc0500P2",
+    "patches": 64,
+    "forward": 0.10289018309164431,
+    "ink_fraction": 0.036225583293290314,
+    "reverse": 0.0393949544188002,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0500P2-20250611153347-z_dbg_gen_00105_inp_hr",
+    "scroll": "PHerc0500P2",
+    "patches": 64,
+    "forward": 0.36375600581425693,
+    "ink_fraction": 0.06595298167841732,
+    "reverse": 0.05352522304775507,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0500P2-20250611154256-z_dbg_gen_00354_inp_hr",
+    "scroll": "PHerc0500P2",
+    "patches": 64,
+    "forward": 0.38681712970066373,
+    "ink_fraction": 0.19764753191917162,
+    "reverse": 0.19549385792840449,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0500P2-20250611161023-z_dbg_gen_00205_inp_hr",
+    "scroll": "PHerc0500P2",
+    "patches": 64,
+    "forward": 0.4325302683288317,
+    "ink_fraction": 0.14142658788596432,
+    "reverse": 0.1292480022304533,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0500P2-20250611161415-z_dbg_gen_00411_inp_hr",
+    "scroll": "PHerc0500P2",
+    "patches": 64,
+    "forward": 0.4062928877890977,
+    "ink_fraction": 0.21165515599955348,
+    "reverse": 0.2065237602970303,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0500P2-20250611170257-z_dbg_gen_00308_inp_hr",
+    "scroll": "PHerc0500P2",
+    "patches": 64,
+    "forward": 0.5220283224247593,
+    "ink_fraction": 0.27068663010723926,
+    "reverse": 0.2318667751449953,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0500P2-20250611171318-z_dbg_gen_00440_inp_hr",
+    "scroll": "PHerc0500P2",
+    "patches": 64,
+    "forward": 0.07228343524922311,
+    "ink_fraction": 0.046598336969064826,
+    "reverse": 0.0482498375332722,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0500P2-20250611171745-z_dbg_gen_00225_inp_hr",
+    "scroll": "PHerc0500P2",
+    "patches": 64,
+    "forward": 0.3669364537916378,
+    "ink_fraction": 0.13600446201790198,
+    "reverse": 0.14203373260416194,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0500P2-20250611172135-z_dbg_gen_00346_inp_hr",
+    "scroll": "PHerc0500P2",
+    "patches": 64,
+    "forward": 0.43436815287880265,
+    "ink_fraction": 0.10513386701506579,
+    "reverse": 0.12076473112763773,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0500P2-20250611173014-z_dbg_gen_00506_inp_hr",
+    "scroll": "PHerc0500P2",
+    "patches": 64,
+    "forward": 0.47939135438369596,
+    "ink_fraction": 0.14516115919170403,
+    "reverse": 0.19533195153874017,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0500P2-20250628074500-500P2_front",
+    "scroll": "PHerc0500P2",
+    "patches": 64,
+    "forward": 0.5582827250279508,
+    "ink_fraction": 0.16398552825266074,
+    "reverse": 0.15711067118140518,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0500P2-20250716055227-z_dbg_gen_00260_inp_hr",
+    "scroll": "PHerc0500P2",
+    "patches": 64,
+    "forward": 0.41567733762348863,
+    "ink_fraction": 0.12495737311568628,
+    "reverse": 0.09709377060169895,
+    "forward_better": true
+  },
+  {
+    "id": "reader-0500P2-20250716055228-z_dbg_gen_00333_inp_hr",
+    "scroll": "PHerc0500P2",
+    "patches": 64,
+    "forward": 0.6395727786386568,
+    "ink_fraction": 0.12533097969991175,
+    "reverse": 0.11097413003658974,
+    "forward_better": true
+  }
+]

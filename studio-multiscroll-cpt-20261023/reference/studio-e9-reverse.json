@@ -1,0 +1,74 @@
+{
+  "checkpoint": "/home/ubuntu/studio-multiscroll-cpt-20261023/weights/vesuvius-814-841-9b-resunet-studio-20260926/model.safetensors",
+  "segments": [
+    {
+      "id": "PHerc0211-3305-r002-c01-manual-20261008-203736",
+      "labeled": 1651082,
+      "ink_fraction": 0.2419146959387844,
+      "ap": 0.23655700582002498,
+      "mean_probability": 0.06324988603591919
+    },
+    {
+      "id": "PHerc0211-Manual-03-da99cfea-p824-upper-long-villa",
+      "labeled": 796434,
+      "ink_fraction": 0.2661702036829166,
+      "ap": 0.27323713689245405,
+      "mean_probability": 0.06947727501392365
+    },
+    {
+      "id": "PHerc0211-P737m01st3-grown",
+      "labeled": 1647972,
+      "ink_fraction": 0.24064122448682382,
+      "ap": 0.25352056666567524,
+      "mean_probability": 0.03821096196770668
+    },
+    {
+      "id": "PHerc0211-P737x1t-wplus1r-20261012",
+      "labeled": 141511,
+      "ink_fraction": 0.38969408738543293,
+      "ap": 0.4951708971405744,
+      "mean_probability": 0.06126730889081955
+    },
+    {
+      "id": "PHerc0211-P824rowsX-20261012",
+      "labeled": 820958,
+      "ink_fraction": 0.28278547745438865,
+      "ap": 0.3098489045503526,
+      "mean_probability": 0.026692381128668785
+    },
+    {
+      "id": "PHerc0211-S302c1x-r3t-20261012",
+      "labeled": 182879,
+      "ink_fraction": 0.32666954653076624,
+      "ap": 0.40949372106095916,
+      "mean_probability": 0.33665308356285095
+    },
+    {
+      "id": "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component00-part01",
+      "labeled": 116550,
+      "ink_fraction": 0.3691806091806092,
+      "ap": 0.42459945321783615,
+      "mean_probability": 0.385549396276474
+    },
+    {
+      "id": "PHerc0211-pure-will-outer-20261013-1350-lower-outer-c001-component01-part00",
+      "labeled": 43619,
+      "ink_fraction": 0.5161282927164768,
+      "ap": 0.46377858000454664,
+      "mean_probability": 0.046803444623947144
+    },
+    {
+      "id": "PHerc0211-r005-c01-manual-20261008-195107",
+      "labeled": 1202216,
+      "ink_fraction": 0.30590259986558155,
+      "ap": 0.29013295442752607,
+      "mean_probability": 0.06087496876716614
+    }
+  ],
+  "mean_ap": 0.3507043577533277,
+  "pixel_weighted_ap": 0.2792329875936493,
+  "pooled_ap": 0.28423178374369545,
+  "reverse": true,
+  "seconds": 12.765668447013013,
+  "recipe": "128 window, central 96, stride 96, bf16; labeled cells only"
+}
