@@ -21,3 +21,10 @@ weights/
 studio-multiscroll-cpt-20261023/hf-stage/
 studio-multiscroll-cpt-20261023/training.jsonl
 studio-multiscroll-cpt-20261023/training-result.json
+
+.reproduction/
+studio-multiscroll-cpt-20261023/mixture-stage1.json
+studio-softloss-20261023/checkpoints/
+studio-softloss-20261023/training.jsonl
+studio-softloss-20261023/training-result.json
+studio-softloss-20261023/progress.json

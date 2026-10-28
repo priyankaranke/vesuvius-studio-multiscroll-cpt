@@ -50,7 +50,12 @@ def fetch_chunk(url, depth, retries=6):
 def prepare(row, labels_root, out_root, max_patches, workers, seed=2026102304):
     obj, seg = row['object'], row['segment']; d, h, w = map(int, row['canvas_zyx'].split('x')); lz = int(row['label_z'])
     out = out_root / f'reader-{obj}-{seg}'
-    if (out / 'ready.json').exists(): return json.loads((out / 'ready.json').read_text())
+    if (out / 'ready.json').exists():
+        ready = json.loads((out / 'ready.json').read_text())
+        files = ('ct-tiles.npy', 'tiles.npy', 'coordinates.npy', 'label.png', 'mask.png')
+        if (ready.get('status') == 'complete' and not ready.get('missing_chunks', 0)
+                and all((out / name).is_file() for name in files)):
+            return ready
     out.mkdir(parents=True, exist_ok=True); began = time.monotonic()
     folder = labels_root / obj / seg
     ink = label_plane(folder / f'{seg}_inklabels.zarr', lz, (d, h, w)) > 127
@@ -83,7 +88,10 @@ def prepare(row, labels_root, out_root, max_patches, workers, seed=2026102304):
         if b is None: missing.append((ty, tx)); ct[i] = 0; return
         ct[i] = np.frombuffer(b, np.uint8).reshape(d, 128, 128)[planes].transpose(1, 2, 0)
     with cf.ThreadPoolExecutor(workers) as pool: list(pool.map(one, range(len(tiles))))
-    ct.flush(); del ct; (out / 'ct-tiles.partial.npy').replace(out / 'ct-tiles.npy')
+    ct.flush(); del ct
+    if missing:
+        raise RuntimeError(f'{seg}: {len(missing)} CT chunks are unavailable; training row is incomplete')
+    (out / 'ct-tiles.partial.npy').replace(out / 'ct-tiles.npy')
     np.save(out / 'tiles.npy', np.array([(ty * 128, tx * 128) for ty, tx in tiles], np.int64))
     np.save(out / 'coordinates.npy', np.array(coords, np.int64))
     Image.fromarray(ink.astype(np.uint8) * 255).save(out / 'label.png'); Image.fromarray(sup.astype(np.uint8) * 255).save(out / 'mask.png')

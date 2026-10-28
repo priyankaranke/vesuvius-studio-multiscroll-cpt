@@ -46,6 +46,8 @@ from small_unets import DeepResidualUNet
 from multiscroll_data import HostAtlas, GroupStream
 from eval211 import Eval211
 from gpu_lease import acquire
+sys.path.insert(0, str(ROOT.parent))
+from reproduction import validate_rows
 
 RUN_ID = 'studio-softloss-20261023'
 TOTAL = int(os.environ.get('CPT_TOTAL_UPDATES', '3000')); PEAK = float(os.environ.get('CPT_PEAK_LR', '6e-5'))
@@ -197,7 +199,7 @@ def main():
     drop_page_cache()
     mixture = json.loads((CPT / 'mixture.json').read_text())
     rows = [str((CPT / p).resolve()) for p in mixture['rows']]
-    rows = [p for p in rows if (Path(p) / 'ready.json').exists()]
+    validate_rows(rows)
     doc = json.loads((STUDIO / 'data.json').read_text()); assert doc['status'] == 'complete'
     out = ROOT / 'checkpoints'; out.mkdir(exist_ok=True)
     base = Path(os.environ.get('CPT_BASE', str(CPT / 'checkpoints/model-ema.safetensors')))

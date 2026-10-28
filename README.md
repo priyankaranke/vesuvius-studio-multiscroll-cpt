@@ -5,11 +5,45 @@
 > (0.7656 → 0.7791). See [`studio-multiscroll-cpt-20261023/`](studio-multiscroll-cpt-20261023/README.md). The rest of this
 > README describes the parent Studio stack, unchanged.
 >
-> **Reproduce in one command (28 Oct 2026):** `bash reproduce.sh` downloads the data and runs the continued pretraining and the
-> soft-loss stage; `bash reproduce.sh softloss` runs only the last stage from the released weights. Weights are GitHub release
-> assets (`studio-multiscroll-cpt-20261023`, `studio-softloss-20261023`). Inference: `studio-multiscroll-cpt-20261023/hf/inference.py`
-> (`--stride 64 --blend hann` is the tiling of the submission images). The soft-loss stage is described in
-> [`studio-softloss-20261023/README.md`](studio-softloss-20261023/README.md).
+## Train the complete model from scratch
+
+```bash
+bash reproduce.sh
+```
+
+Run this in a fresh clone. It trains Studio from random initialization for nine epochs (74,250 updates),
+then trains on the other scrolls for 30,000 updates with 814/841/9B replay, and runs the final 3,000-update
+soft-loss stage. Every stage uses the weights produced by the preceding stage; this command downloads no
+pretrained model weights. It follows the recorded data, learning-rate and EMA transitions. Floating-point
+results can differ across hardware; this is not a promise of identical weights.
+
+### All training datasets
+
+| Dataset | Used for |
+| --- | --- |
+| [814 / 841 / 9B training data](https://huggingface.co/datasets/paranke/vesuvius-814-841-9b-studio-training-data) | Initial scratch training and replay in the later stages: labels, masks and rendered CT tiles. |
+| [Expanded9 training data](https://huggingface.co/datasets/paranke/vesuvius-expanded9-training-data) | 69 other-scroll rows, including Scroll 1, Scroll 5, PHerc0139, PHerc1667, PHerc0500P2, PHercMAN5 and exposed fragments. |
+| [Reader v2/v3 labels](https://huggingface.co/datasets/domenicor046/reader-v2-labels) | 47 further segments from PHerc0139, PHerc0500P2, PHerc0343P and PHerc0172; the script downloads their CT from public S3. |
+
+The script downloads all three datasets (about 120 GB), prepares the Reader rows and checks every required
+row before training. Other-scroll data goes in `../expanded9`, `../reader-v2` and `../reader-rows` beside the
+checkout. Missing rows or missing CT chunks stop the run. PHerc0211 is excluded from training.
+
+Use Linux, `uv`, Hugging Face access to the datasets, a compatible NVIDIA GPU with at least 96 GB VRAM,
+at least 128 GB host RAM and 200 GB free disk. The full run includes the initial scratch training and takes
+longer than the roughly ten hours required by the two later stages alone. Install the pinned dependencies
+via the script and authenticate with Hugging Face before downloading.
+
+Re-running the same command resumes its saved stages. Use a separate clean clone for a different run;
+existing training outputs are never automatically replaced. To run only the final stage from the published
+intermediate weights, use `bash reproduce.sh softloss` (requires GitHub CLI access to the release).
+Final output: `studio-softloss-20261023/checkpoints/model-ema.safetensors`.
+
+The PHerc0211 evaluation set is optional and does not contribute training pixels; set `PHERC0211_EVAL_DATA`
+to its local directory to reproduce those evaluation scores. Inference uses
+`studio-multiscroll-cpt-20261023/hf/inference.py --stride 64 --blend hann` with the released soft-loss weights.
+
+## Base Studio training details
 
 
 Everything needed to prepare the training data, train the **Studio** ink model from random initialization, and run

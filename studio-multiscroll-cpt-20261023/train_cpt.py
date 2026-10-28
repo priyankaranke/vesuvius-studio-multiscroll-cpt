@@ -33,6 +33,8 @@ from small_unets import DeepResidualUNet
 from multiscroll_data import HostAtlas, GroupStream
 from eval211 import Eval211
 from gpu_lease import acquire
+sys.path.insert(0, str(ROOT.parent))
+from reproduction import validate_rows
 
 RUN_ID = 'studio-multiscroll-cpt-20261023'
 TOTAL = int(os.environ.get('CPT_TOTAL_UPDATES', '30000')); PEAK = float(os.environ.get('CPT_PEAK_LR', '6e-5'))
@@ -40,6 +42,8 @@ WARMUP = int(os.environ.get('CPT_WARMUP', '600')); REPLAY = int(os.environ.get('
 EVAL_EVERY = int(os.environ.get('CPT_EVAL_EVERY', '2000')); FLOOR = .02
 EMA_DECAY = float(os.environ.get('CPT_EMA_DECAY', '0.9995'))
 STUDIO_SCROLLS = ('PHerc0814', 'PHerc0841', 'PHerc0009B')
+ENABLE_EMA = os.environ.get('CPT_ENABLE_EMA', '1') == '1'
+STOP_AFTER = int(os.environ.get('CPT_STOP_AFTER_UPDATE', '0'))
 STOP = False
 
 
@@ -160,9 +164,9 @@ def drop_page_cache():
 
 def main():
     drop_page_cache()
-    mixture = json.loads((ROOT / 'mixture.json').read_text())
+    mixture = json.loads(Path(os.environ.get('CPT_MIXTURE_PATH', str(ROOT / 'mixture.json'))).read_text())
     rows = [str((ROOT / p).resolve()) for p in mixture['rows']]
-    rows = [p for p in rows if (Path(p) / 'ready.json').exists()]
+    validate_rows(rows)
     doc = json.loads((STUDIO / 'data.json').read_text()); assert doc['status'] == 'complete'
     out = ROOT / 'checkpoints'; out.mkdir(exist_ok=True)
     base = Path(os.environ.get('CPT_BASE', str(ROOT.parent.parent / 'weights/vesuvius-814-841-9b-resunet-studio-20260926/model.safetensors')))
@@ -180,6 +184,8 @@ def main():
     if resume is not None:
         for key in ('base_sha256', 'total_updates', 'warmup_updates', 'replay_per_update', 'studio_data_sha256'):
             assert resume['config'][key] == config[key], ('resume config differs', key)
+    if resume is not None and 0 < STOP_AFTER < TOTAL and resume['step'] >= STOP_AFTER:
+        print('STAGE_ALREADY_REACHED', resume['step'], flush=True); return
     lr_history = (resume or {}).get('lr_history') or [dict(from_update=0, peak_lr=(resume or {}).get('config', config)['peak_lr'])]
     if lr_history[-1]['peak_lr'] != PEAK:
         lr_history = lr_history + [dict(from_update=resume['step'], peak_lr=PEAK)]
@@ -236,7 +242,9 @@ def main():
             optimizer.load_state_dict(resume['optimizer']); step = resume['step']; prior_wall = resume['wall_seconds']; best = resume.get('best')
             torch.set_rng_state(resume['torch_rng']); torch.cuda.set_rng_state_all(resume['cuda_rng']); augmentation_rng.bit_generator.state = resume['augmentation_rng']
         params = [p for p in model.parameters()]
-        if resume is not None and resume.get('ema') is not None:
+        if not ENABLE_EMA:
+            ema = None; ema_updates = 0; ema_from = step; best_ema = None
+        elif resume is not None and resume.get('ema') is not None:
             ema = [t.to('cuda') for t in resume['ema']]; ema_updates = resume['ema_updates']; ema_from = resume['ema_from']; best_ema = resume.get('best_ema')
         else:
             ema = [p.detach().clone() for p in params]; ema_updates = 0; ema_from = step; best_ema = None
@@ -278,7 +286,7 @@ def main():
             if not final:
                 payload.update(optimizer=optimizer.state_dict(), torch_rng=torch.get_rng_state(), cuda_rng=torch.cuda.get_rng_state_all(),
                                augmentation_rng=copy.deepcopy(augmentation_rng.bit_generator.state), best=best, data_history=history, lr_history=lr_history,
-                               ema=[t.detach().cpu() for t in ema], ema_updates=ema_updates, ema_from=ema_from, best_ema=best_ema,
+                               ema=[t.detach().cpu() for t in ema] if ema is not None else None, ema_updates=ema_updates, ema_from=ema_from, best_ema=best_ema,
                                **(consumed or dict(sampler_rng=copy.deepcopy(rng.bit_generator.state), studio_stream=studio_stream.state(),
                                                    group_streams={n: dict(streams[n].state(), patches=len(streams[n].entries)) for n in names})))
             path = out / ('last.pt' if final else 'resume.pt'); tmp = path.with_suffix('.tmp'); torch.save(payload, tmp); tmp.replace(path)
@@ -317,6 +325,8 @@ def main():
         replenish(); interval = defaultdict(float); counts_interval = defaultdict(int); t_interval = time.monotonic(); n_interval = 0; cpu_wait = 0.
         try:
             while step < TOTAL:
+                if STOP_AFTER and step >= STOP_AFTER:
+                    checkpoint(); print('STAGE_COMPLETE', step, flush=True); log.close(); return
                 if STOP:
                     checkpoint(); print('STOPPED_AT_UPDATE', step, flush=True); log.close(); sys.exit(75)
                 t0 = time.monotonic(); b = futures.popleft().result(); cpu_wait += time.monotonic() - t0; replenish()
@@ -341,8 +351,9 @@ def main():
                         optimizer.zero_grad(set_to_none=True); interval['_skipped'] += 1
                         log.write(json.dumps(dict(step=step, skipped_nonfinite=True)) + '\n'); step += 1; consumed = b['snapshot']; del x, state; continue
                     optimizer.step()
-                    with torch.no_grad():
-                        ema_updates += 1; torch._foreach_lerp_(ema, [p.detach() for p in params], 1 - min(EMA_DECAY, (1 + ema_updates) / (10 + ema_updates)))
+                    if ema is not None:
+                        with torch.no_grad():
+                            ema_updates += 1; torch._foreach_lerp_(ema, [p.detach() for p in params], 1 - min(EMA_DECAY, (1 + ema_updates) / (10 + ema_updates)))
                     for g, v, a in zip(b['groups'], per_example, active):
                         if a: interval[g] += float(v); counts_interval[g] += 1
                     interval['_norm'] += float(norm); interval['_loss'] += float(per_example.sum() / count)
@@ -362,20 +373,23 @@ def main():
                     if best is None or scores['pherc0211']['pixel_weighted_ap'] > best['pherc0211_pixel_weighted_ap']:
                         best = dict(step=step, pherc0211_pixel_weighted_ap=scores['pherc0211']['pixel_weighted_ap'], file=f'step-{step:06d}.safetensors')
                     log.write(json.dumps(dict(step=step, evaluation=scores)) + '\n'); print('EVALUATION', step, json.dumps(scores), flush=True)
-                    swap_ema()
-                    try:
-                        escores = evaluate(); escores['checkpoint_sha256'] = export(f'ema-{step:06d}.safetensors'); escores['ema_updates'] = ema_updates; escores['ema_from'] = ema_from
-                    finally:
+                    if ema is not None:
                         swap_ema()
-                    if best_ema is None or escores['pherc0211']['pixel_weighted_ap'] > best_ema['pherc0211_pixel_weighted_ap']:
-                        best_ema = dict(step=step, pherc0211_pixel_weighted_ap=escores['pherc0211']['pixel_weighted_ap'], file=f'ema-{step:06d}.safetensors')
-                    log.write(json.dumps(dict(step=step, evaluation_ema=escores)) + '\n'); print('EVALUATION_EMA', step, json.dumps(escores), flush=True)
+                        try:
+                            escores = evaluate(); escores['checkpoint_sha256'] = export(f'ema-{step:06d}.safetensors'); escores['ema_updates'] = ema_updates; escores['ema_from'] = ema_from
+                        finally:
+                            swap_ema()
+                        if best_ema is None or escores['pherc0211']['pixel_weighted_ap'] > best_ema['pherc0211_pixel_weighted_ap']:
+                            best_ema = dict(step=step, pherc0211_pixel_weighted_ap=escores['pherc0211']['pixel_weighted_ap'], file=f'ema-{step:06d}.safetensors')
+                        log.write(json.dumps(dict(step=step, evaluation_ema=escores)) + '\n'); print('EVALUATION_EMA', step, json.dumps(escores), flush=True)
                     if run: run.log({'eval/pherc0211_mean_ap': scores['pherc0211']['mean_ap'], 'eval/pherc0211_pixel_weighted_ap': scores['pherc0211']['pixel_weighted_ap'], 'eval/studio_holdout_ap': scores['studio_holdout']['ap']}, step=step)
                     checkpoint(); last_checkpoint = time.monotonic(); t_interval = time.monotonic()
                 elif time.monotonic() - last_checkpoint >= 900:
                     checkpoint(); last_checkpoint = time.monotonic()
             checkpoint(); checkpoint(final=True); sha = export('model.safetensors')
-            swap_ema(); ema_sha = export('model-ema.safetensors'); swap_ema()
+            ema_sha = None
+            if ema is not None:
+                swap_ema(); ema_sha = export('model-ema.safetensors'); swap_ema()
             result = dict(status='complete', run_id=RUN_ID, global_step=step, model_sha256=sha, ema_model_sha256=ema_sha, best_pherc0211=best, best_pherc0211_ema=best_ema, config=config,
                           wall_seconds=prior_wall + time.monotonic() - began)
             atomic(ROOT / 'training-result.json', result); atomic(ROOT / 'progress.json', dict(result, updated_at=time.time()))

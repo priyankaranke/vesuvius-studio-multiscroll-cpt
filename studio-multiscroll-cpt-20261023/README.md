@@ -87,8 +87,10 @@ EMA `ec1f239a9764a6f5d5ed8ec5c217db07cc6c524ededa2467adbc4afd0c0606f5`, raw `6f8
 
 ## Reproduce
 
-One command: `bash ../reproduce.sh` (repository root) runs steps 1–4 below and then the soft-loss stage; see its header for
-requirements. Step by step:
+From the repository root, `bash reproduce.sh` runs the complete chain from random initialization: nine
+Studio epochs, the staged other-scroll training below, then the final soft-loss stage. It downloads all
+three datasets linked above and in the root README. Use a fresh clone; rerunning resumes that reproduction.
+The commands below describe the continued-training stage on its own:
 
 1. `../download_data.py` (Studio data) and `hf download paranke/vesuvius-expanded9-training-data --repo-type dataset --local-dir ../../expanded9`.
 2. `hf download domenicor046/reader-v2-labels --repo-type dataset --local-dir ../../reader-v2 && tar -xf ../../reader-v2/reader-v2-dense-native-labels.tar -C ../../reader-v2`,
