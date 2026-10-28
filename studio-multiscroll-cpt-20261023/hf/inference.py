@@ -3,6 +3,7 @@
 Default: 128 px windows on a 96 px grid, central 96 px written without overlap (Studio's published tiling).
 --stride 64 --blend hann: windows every 64 px, each central 96 px weighted by a pixel-centred 2-D Hann window and the
 overlaps averaged by weight (the tiling used for the PHerc0211 submission images; smooth, no tile seams).
+Pixels with no CT data (all 16 input planes 0, i.e. outside the rendered surface) are written as 0.
 """
 import argparse
 from contextlib import nullcontext
@@ -69,6 +70,7 @@ def predict(model, volume, output, device="cuda", batch_size=1, amp="bf16", stri
                 result[y:y + hh, x:x + ww] = p[:hh, :ww]
     if blend == "hann":
         result[:] = np.where(weight > 0, result / np.maximum(weight, 1e-12), 0).astype(np.float32)
+    result[(np.asarray(volume) == 0).all(0)] = 0   # no CT data: outside the rendered surface
     result.flush()
     return result
 
