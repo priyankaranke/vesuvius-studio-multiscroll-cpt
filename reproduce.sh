@@ -16,6 +16,6 @@ esac
 if [ "$#" -gt 1 ]; then echo 'Only one mode argument is accepted' >&2; exit 2; fi
 if [ ! -x .venv/bin/python ]; then
   uv venv --python 3.11.16 .venv
-  uv pip install --python .venv --index-strategy unsafe-best-match -r requirements-training.txt
 fi
+uv pip install --python .venv --index-strategy unsafe-best-match -r requirements-training.txt
 exec "$HERE/.venv/bin/python" "$HERE/reproduction.py" "${1:-all}"

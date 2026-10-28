@@ -4,6 +4,8 @@
 *.safetensors
 .env
 .venv/
+.venv-inference/
+.inference/
 __pycache__/
 donor-spirals-20260921/
 donor-studio-resunet-scratch-20260926/checkpoints/

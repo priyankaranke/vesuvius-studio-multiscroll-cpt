@@ -5,6 +5,26 @@
 > (0.7656 → 0.7791). See [`studio-multiscroll-cpt-20261023/`](studio-multiscroll-cpt-20261023/README.md). The rest of this
 > README describes the parent Studio stack, unchanged.
 >
+## Run inference with the released weights
+
+From a clean clone with `uv` installed and GitHub access to this repository:
+
+```bash
+bash infer.sh --input planes16.npy --output ink.npy
+```
+
+`planes16.npy` must be the uint8 CT stack `[16,H,W]` in model depth order (for the supplied surface,
+render planes 00–30 with Volume Cartographer and stack 23 down to 8). This entry point installs the pinned
+inference dependencies in `.venv-inference`, downloads the soft-loss release, verifies its full SHA-256,
+and calls `studio-multiscroll-cpt-20261023/hf/inference.py` with stride 64, Hann blending and batch size 32.
+It stops on download, checksum, dependency or runtime errors. Use `--device cpu --batch-size 1 --amp fp32`
+for a slower CPU run. The documented path produces standard PyTorch inference; it is not bit-identical
+to the optimized GH200 output supplied with the submission.
+
+For weights produced by scratch training, pass `--checkpoint PATH --checkpoint-sha256 SHA256`.
+The image-making script and its CT background and colour table are in the Drive mesh ZIP; run it using
+`.venv-inference/bin/python` to use the installed NumPy, Pillow and SciPy dependencies.
+
 ## Train the complete model from scratch
 
 ```bash
