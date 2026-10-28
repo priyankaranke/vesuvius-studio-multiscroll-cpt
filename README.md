@@ -4,6 +4,12 @@
 > 814 / 841 / 9B replay in every batch; PHerc0211 held-out AP 0.8081 → 0.8222 (pixel-weighted), Studio 841 holdout kept
 > (0.7656 → 0.7791). See [`studio-multiscroll-cpt-20261023/`](studio-multiscroll-cpt-20261023/README.md). The rest of this
 > README describes the parent Studio stack, unchanged.
+>
+> **Reproduce in one command (28 Oct 2026):** `bash reproduce.sh` downloads the data and runs the continued pretraining and the
+> soft-loss stage; `bash reproduce.sh softloss` runs only the last stage from the released weights. Weights are GitHub release
+> assets (`studio-multiscroll-cpt-20261023`, `studio-softloss-20261023`). Inference: `studio-multiscroll-cpt-20261023/hf/inference.py`
+> (`--stride 64 --blend hann` is the tiling of the submission images). The soft-loss stage is described in
+> [`studio-softloss-20261023/README.md`](studio-softloss-20261023/README.md).
 
 
 Everything needed to prepare the training data, train the **Studio** ink model from random initialization, and run

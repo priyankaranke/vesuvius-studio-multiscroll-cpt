@@ -1,4 +1,9 @@
-"""Offline tiled inference on a uint8 [16,H,W] array in verified model depth order."""
+"""Offline tiled inference on a uint8 [16,H,W] array in verified model depth order.
+
+Default: 128 px windows on a 96 px grid, central 96 px written without overlap (Studio's published tiling).
+--stride 64 --blend hann: windows every 64 px, each central 96 px weighted by a pixel-centred 2-D Hann window and the
+overlaps averaged by weight (the tiling used for the PHerc0211 submission images; smooth, no tile seams).
+"""
 import argparse
 from contextlib import nullcontext
 from pathlib import Path
@@ -25,8 +30,13 @@ def load_model(checkpoint, device):
     return model.eval().to(device)
 
 
+def hann96():
+    w = 0.5 - 0.5 * np.cos(2 * np.pi * (np.arange(96) + 0.5) / 96)
+    return (w[:, None] * w[None, :]).astype(np.float32)
+
+
 @torch.inference_mode()
-def predict(model, volume, output, device="cuda", batch_size=1, amp="bf16"):
+def predict(model, volume, output, device="cuda", batch_size=1, amp="bf16", stride=96, blend="none"):
     if volume.ndim != 3 or volume.shape[0] != 16 or volume.dtype != np.uint8:
         raise ValueError("Expected uint8 [16,H,W], in the verified model depth order")
     h, w = volume.shape[-2:]
@@ -35,7 +45,12 @@ def predict(model, volume, output, device="cuda", batch_size=1, amp="bf16"):
     output = Path(output)
     output.parent.mkdir(parents=True, exist_ok=True)
     result = np.lib.format.open_memmap(output, mode="w+", dtype=np.float32, shape=(h, w))
-    coords = ((y, x) for y in range(0, h, 96) for x in range(0, w, 96))
+    if blend == "hann":
+        weight = np.zeros((h, w), np.float32); kernel = hann96()
+        result[:] = 0
+    starts_y = sorted(set(list(range(0, h, stride)) + ([max(h - 96, 0)] if blend == "hann" else [])))
+    starts_x = sorted(set(list(range(0, w, stride)) + ([max(w - 96, 0)] if blend == "hann" else [])))
+    coords = ((y, x) for y in starts_y for x in starts_x)
     from itertools import islice
     while batch := list(islice(coords, batch_size)):
         raw = np.stack([crop(volume, y - 16, x - 16) for y, x in batch])
@@ -47,7 +62,13 @@ def predict(model, volume, output, device="cuda", batch_size=1, amp="bf16"):
         probability = logits[:, 0, 16:112, 16:112].float().sigmoid().cpu().numpy()
         for (y, x), p in zip(batch, probability):
             hh, ww = min(96, h - y), min(96, w - x)
-            result[y:y + hh, x:x + ww] = p[:hh, :ww]
+            if blend == "hann":
+                result[y:y + hh, x:x + ww] += p[:hh, :ww] * kernel[:hh, :ww]
+                weight[y:y + hh, x:x + ww] += kernel[:hh, :ww]
+            else:
+                result[y:y + hh, x:x + ww] = p[:hh, :ww]
+    if blend == "hann":
+        result[:] = np.where(weight > 0, result / np.maximum(weight, 1e-12), 0).astype(np.float32)
     result.flush()
     return result
 
@@ -62,6 +83,8 @@ def main():
     parser.add_argument("--device", default="cuda", choices=["cuda", "cpu"])
     parser.add_argument("--batch-size", type=int, default=1)
     parser.add_argument("--amp", default="bf16", choices=["bf16", "fp32"])
+    parser.add_argument("--stride", type=int, default=96, help="Window step in px; 96 = no overlap (default), 64 = the submission tiling")
+    parser.add_argument("--blend", default="none", choices=["none", "hann"], help="hann: Hann-weighted average of overlapping windows")
     args = parser.parse_args()
     if Path(args.input).resolve() == Path(args.output).resolve():
         parser.error("Input and output must be different files")
@@ -77,7 +100,9 @@ def main():
         checkpoint = hf_hub_download(args.repo, "model.safetensors", revision=args.revision)
     volume = np.load(args.input, mmap_mode="r", allow_pickle=False)
     model = load_model(checkpoint, args.device)
-    predict(model, volume, args.output, args.device, args.batch_size, args.amp)
+    if args.blend == "none" and args.stride != 96:
+        parser.error("--stride other than 96 needs --blend hann")
+    predict(model, volume, args.output, args.device, args.batch_size, args.amp, args.stride, args.blend)
 
 
 if __name__ == "__main__":

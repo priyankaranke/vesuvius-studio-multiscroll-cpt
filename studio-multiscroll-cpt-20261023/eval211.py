@@ -26,7 +26,10 @@ def ap(score, y):
 class Eval211:
     def __init__(self, data=DATA, reverse=False):
         self.segments = []
-        for folder in sorted(Path(data).iterdir()):
+        data = Path(data)
+        if not data.exists():
+            print(f'eval211: {data} not found; the PHerc0211 held-out evaluation is skipped (set PHERC0211_EVAL_DATA to enable it)', flush=True)
+        for folder in sorted(data.iterdir()) if data.exists() else []:
             if not (folder / 'labels.npz').exists():
                 continue
             labels = np.load(folder / 'labels.npz'); known = labels['known'].astype(bool); ink = labels['ink'].astype(bool)
@@ -51,6 +54,9 @@ class Eval211:
     def __call__(self, model, batch=32):
         """model: callable on [B,1,16,128,128] float in [0, 200/255] -> logits [B,1,128,128]."""
         rows = []; scores = []; targets = []; began = time.monotonic()
+        if not self.segments:
+            nan = float('nan')
+            return dict(segments=[], mean_ap=nan, pixel_weighted_ap=nan, pooled_ap=nan, reverse=self.reverse, seconds=0.0, recipe='skipped: no PHerc0211 evaluation data')
         for s in self.segments:
             h, w = s['known'].shape; prob = np.zeros((h, w), np.float32)
             for i in range(0, len(s['cells']), batch):

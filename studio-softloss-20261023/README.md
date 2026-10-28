@@ -1,5 +1,11 @@
 # Studio soft-prediction test (2026-10-23)
 
+**Weights:** the final EMA `model-ema.safetensors` (SHA-256 `96b326286e38de99047f7cab36170c53749a18d5f43e5fde0c7c20f2980b0e90`)
+is the GitHub release asset `studio-softloss-20261023-ema.safetensors` of release `studio-softloss-20261023`; it is the model of the
+28 Oct 2026 PHerc0211 First Letters submission. **Reproduce:** `bash ../reproduce.sh softloss` (this stage alone, ~1 h, from the
+released continued-pretraining weights) or `bash ../reproduce.sh` (the whole chain). **Inference:** `../studio-multiscroll-cpt-20261023/hf/inference.py`
+with `--checkpoint <these weights> --stride 64 --blend hann` (the submission tiling; the default is Studio's non-overlapping stride 96).
+
 Priyank's question: Studio's maps are high quality but lack the diffuse, soft responses of Youssef's model
 ([`YoussefMoNader/ink-8um-v8in`](https://huggingface.co/YoussefMoNader/ink-8um-v8in)). Those weak responses are what a
 human reinforces during iterative fine-tuning, so the question is whether they come from v8in's loss (and smaller

@@ -22,6 +22,12 @@ Studio: `DeepResidualUNet(deeper=False)`, 223,355,921 parameters, 16 native plan
 > They are in the private GitHub release
 > [`studio-multiscroll-cpt-20261023`](https://github.com/priyankaranke/vesuvius-studio-multiscroll-cpt/releases/tag/studio-multiscroll-cpt-20261023)
 > (`studio-multiscroll-cpt-20261023-ema.safetensors` = `model.safetensors`, `…-raw.safetensors` = `model-raw.safetensors`; same SHA-256 as below).
+>
+> **Soft-loss stage (the model of the 28 Oct 2026 PHerc0211 First Letters submission):** 3,000 further updates on the same data with
+> only the loss changed (BCE with label smoothing 0.25 + batch Dice), EMA SHA-256 `96b32628…0e90`. Weights: GitHub release
+> [`studio-softloss-20261023`](https://github.com/priyankaranke/vesuvius-studio-multiscroll-cpt/releases/tag/studio-softloss-20261023),
+> asset `studio-softloss-20261023-ema.safetensors`; recipe, results and a one-command reproduction (`reproduce.sh`) in the repository
+> (`studio-softloss-20261023/README.md`).
 
 * `model.safetensors` — the **EMA** weights at the end of the run (decay 0.9995), SHA-256 `ec1f239a…0606f5`. Recommended.
 * `model-raw.safetensors` — the raw final weights, SHA-256 `6f8c1c49…9db0e9` (equivalent on every metric below).
@@ -103,5 +109,9 @@ hf download paranke/vesuvius-studio-multiscroll-cpt-20261023 --local-dir studio-
 cd studio-ms && python -m pip install -r requirements.txt
 python inference.py --input surface_16planes_uint8.npy --output ink_probability.npy --checkpoint model.safetensors --device cuda
 ```
+
+`--stride 64 --blend hann` runs the windows every 64 px and averages the overlaps with a Hann weight: the tiling of the PHerc0211
+submission images (default: Studio's non-overlapping stride 96). On the submitted surface it reproduces the submitted map with
+correlation 0.98 (the submitted map came from the GH200 fused FP8/BF16 engine).
 
 The GH200 dashboards run it with the reference engine (`Engine('studio', ckpt, checkpoint_sha256=…)`), layer `studioms`.
