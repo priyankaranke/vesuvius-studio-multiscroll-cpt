@@ -7,7 +7,7 @@
 >
 ## Run inference with the released weights
 
-From a clean clone with `uv` installed and GitHub access to this repository:
+From a clean clone with `uv` and the [GitHub CLI](https://cli.github.com/) installed (signed in with any GitHub account):
 
 ```bash
 bash infer.sh --input planes16.npy --output ink.npy
@@ -20,6 +20,10 @@ and calls `studio-multiscroll-cpt-20261023/hf/inference.py` with stride 64, Hann
 It stops on download, checksum, dependency or runtime errors. Use `--device cpu --batch-size 1 --amp fp32`
 for a slower CPU run. The documented path produces standard PyTorch inference; it is not bit-identical
 to the optimized GH200 output supplied with the submission.
+
+Without the GitHub CLI, download `studio-softloss-20261023-ema.safetensors` from the
+[release page](https://github.com/priyankaranke/vesuvius-studio-multiscroll-cpt/releases/tag/studio-softloss-20261023)
+and add `--checkpoint` with that file; its SHA-256 is still checked before inference.
 
 For weights produced by scratch training, pass `--checkpoint PATH --checkpoint-sha256 SHA256`.
 The image-making script and its CT background and colour table are in the Drive mesh ZIP; run it using
@@ -49,14 +53,14 @@ The script downloads all three datasets (about 120 GB), prepares the Reader rows
 row before training. Other-scroll data goes in `../expanded9`, `../reader-v2` and `../reader-rows` beside the
 checkout. Missing rows or missing CT chunks stop the run. PHerc0211 is excluded from training.
 
-Use Linux, `uv`, Hugging Face access to the datasets, a compatible NVIDIA GPU with at least 96 GB VRAM,
+Use Linux, `uv`, a compatible NVIDIA GPU with at least 96 GB VRAM,
 at least 128 GB host RAM and 200 GB free disk. The full run includes the initial scratch training and takes
 longer than the roughly ten hours required by the two later stages alone. Install the pinned dependencies
-via the script and authenticate with Hugging Face before downloading.
+via the script. The datasets are public, so no Hugging Face login is needed.
 
 Re-running the same command resumes its saved stages. Use a separate clean clone for a different run;
 existing training outputs are never automatically replaced. To run only the final stage from the published
-intermediate weights, use `bash reproduce.sh softloss` (requires GitHub CLI access to the release).
+intermediate weights, use `bash reproduce.sh softloss` (it downloads the release with the GitHub CLI, signed in with any account).
 Final output: `studio-softloss-20261023/checkpoints/model-ema.safetensors`.
 
 The PHerc0211 evaluation set is optional and does not contribute training pixels; set `PHERC0211_EVAL_DATA`
@@ -81,9 +85,8 @@ pretrained data was used.
 | [HF dataset `paranke/vesuvius-814-841-9b-studio-training-data`](https://huggingface.co/datasets/paranke/vesuvius-814-841-9b-studio-training-data) | Training data (per-dataset plans, labels, native CT tiles), frozen run records, resumable epoch-9 checkpoint, epoch-9 weights; geometry backup, renderer and released stacks needed only to re-render the CT |
 | This repository | Data preparation, CT tile rendering, training, inference and verification code; frozen run records; pinned environment; the original run's per-update log (`reference/`) |
 
-No credentials are stored here or needed by the code. The Hugging Face repositories are private for now: until they are
-public, downloading needs a Hugging Face read token with access to them (put it in `.env` as `HF_TOKEN`, or run
-`hf auth login`). Once they are public, no token is needed. Weights & Biases logging is optional and off by default.
+No credentials are stored here or needed by the code. The Hugging Face repositories are public, so downloads need no
+token. Weights & Biases logging is optional and off by default.
 
 ## Requirements
 
@@ -99,11 +102,11 @@ public, downloading needs a Hugging Face read token with access to them (put it 
 ## Reproduce the run
 
 ```bash
-git clone https://github.com/priyankaranke/vesuvius-814-841-9b-studio-training.git studio && cd studio
+git clone https://github.com/priyankaranke/vesuvius-studio-multiscroll-cpt.git studio && cd studio
 uv venv --python 3.11.16 .venv
 uv pip install --python .venv --index-strategy unsafe-best-match -r requirements-training.txt
 #   (or: python3.11 -m venv .venv && .venv/bin/pip install -r requirements-training.txt)
-cp .env.example .env               # optional settings; HF_TOKEN only while the data is private
+cp .env.example .env               # optional settings (W&B); no Hugging Face token is needed
 .venv/bin/python download_data.py  # ~64 GB, every file checked against the Hub record of the pinned revision
 cd donor-studio-resunet-scratch-20260926
 ../.venv/bin/python train.py       # the full 10-epoch scratch run; writes training.jsonl, checkpoints/, progress.json
@@ -178,3 +181,12 @@ dataset revision `ad919d28` (1,421 files, 64.4 GB, every file checked), on one G
 
 Masked validation loss 0.519, AP 0.766, ROC-AUC 0.830 (central 32 px core; 15,791 ink / 29,558 background pixels).
 These sparse metrics are not comparable to dense-label baselines and do not establish generalization to other scrolls.
+
+## License
+
+Code in this repository: MIT (see [`LICENSE`](LICENSE)).
+
+The model weights in this repository's releases, the training data on Hugging Face and the submission outputs
+(meshes, CT renders, probability maps and images) are derived from the Vesuvius Challenge scans and are released
+under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/), the licence of the scan data. Third-party
+data keeps its own licence (Reader v2 labels: MIT).
