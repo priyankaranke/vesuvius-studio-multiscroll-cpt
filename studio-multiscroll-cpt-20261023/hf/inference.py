@@ -87,9 +87,10 @@ def main():
     parser.add_argument("--checkpoint", help="Local model.safetensors; otherwise download from --repo")
     parser.add_argument("--repo", default="paranke/vesuvius-studio-multiscroll-cpt-20261023")
     parser.add_argument("--revision", default="main", help="HF commit or revision; pin for reproducibility")
-    parser.add_argument("--device", default="cuda", choices=["cuda", "cpu"])
+    parser.add_argument("--device", default="cuda", choices=["cuda", "cpu", "mps"])
     parser.add_argument("--batch-size", type=int, default=1)
-    parser.add_argument("--amp", default="bf16", choices=["bf16", "fp32"])
+    parser.add_argument("--amp", default="bf16", choices=["bf16", "fp32"],
+                        help="CUDA inference precision. CPU and Apple GPU inference use FP32.")
     parser.add_argument("--stride", type=int, default=96, help="Window step in px; 96 = no overlap (default); with --blend hann, 48 = no tile pattern, 64 = the submission tiling")
     parser.add_argument("--blend", default="none", choices=["none", "hann"], help="hann: Hann-weighted average of overlapping windows")
     parser.add_argument("--keep-empty", action="store_true", help="Also run windows with no CT data (slower)")
@@ -98,6 +99,8 @@ def main():
         parser.error("Input and output must be different files")
     if Path(args.output).exists():
         parser.error("Output already exists; choose a new filename")
+    if args.device == "mps" and not torch.backends.mps.is_available():
+        parser.error("Apple GPU (MPS) is unavailable in this PyTorch environment; select --device cpu")
     if args.device == "cuda" and not torch.cuda.is_available():
         parser.error("CUDA is unavailable; select --device cpu or install compatible PyTorch")
     if args.device == "cuda" and args.amp == "bf16" and not torch.cuda.is_bf16_supported():

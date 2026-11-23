@@ -21,7 +21,8 @@ and calls `studio-multiscroll-cpt-20261023/hf/inference.py` with stride 64, Hann
 inside a 32 px band and leave faint squares in weak-ink areas; at 48 every pixel is in two windows per axis and the
 Hann weights sum to one. It takes about 1.7x as long.
 It stops on download, checksum, dependency or runtime errors. Use `--device cpu --batch-size 1 --amp fp32`
-for a slower CPU run. The documented path produces standard PyTorch inference; it is not bit-identical
+for a slower CPU run. On an Apple silicon Mac, add `--device mps` to run on the Apple GPU.
+This uses FP32 and defaults to one tile per batch to fit shared memory. The documented path produces standard PyTorch inference; it is not bit-identical
 to the optimized GH200 output supplied with the submission.
 
 Without the GitHub CLI, download `studio-softloss-20261023-ema.safetensors` from the

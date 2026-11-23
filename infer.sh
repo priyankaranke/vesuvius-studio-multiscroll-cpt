@@ -3,7 +3,7 @@
 set -euo pipefail
 HERE=$(cd "$(dirname "$0")" && pwd)
 case "${1:-}" in
-  -h|--help) echo 'Usage: bash infer.sh --input planes16.npy --output ink.npy [--device cpu] [--checkpoint PATH]'; exit 0 ;;
+  -h|--help) echo 'Usage: bash infer.sh --input planes16.npy --output ink.npy [--device cuda|cpu|mps] [--checkpoint PATH]'; exit 0 ;;
 esac
 if [ ! -x "$HERE/.venv-inference/bin/python" ]; then
   uv venv --python 3.11.16 "$HERE/.venv-inference"
