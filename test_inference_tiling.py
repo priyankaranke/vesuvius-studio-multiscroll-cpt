@@ -2,6 +2,7 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import numpy as np
 import torch
@@ -51,6 +52,26 @@ class SkipEmptyTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             m = Stub(); inference.predict(m, v, Path(d) / 'a.npy', device='cpu', amp='fp32', skip_empty=True)
         self.assertEqual(m.windows, 3 * 4)
+
+
+class PrecisionTests(unittest.TestCase):
+    def test_auto_precision(self):
+        self.assertEqual(inference.resolve_amp('auto', 'cpu'), 'fp32')
+        for capability, expected in (((7, 5), 'fp16'), ((8, 0), 'bf16'), ((8, 9), 'bf16')):
+            with self.subTest(capability=capability), patch.object(torch.cuda, 'get_device_capability',
+                                                                   return_value=capability):
+                self.assertEqual(inference.resolve_amp('auto', 'cuda'), expected)
+
+    def test_explicit_precision_is_kept(self):
+        for amp in ('bf16', 'fp16', 'fp32'):
+            self.assertEqual(inference.resolve_amp(amp, 'cuda'), amp)
+
+    def test_fp16_on_cpu_runs_in_fp32(self):
+        v = surface(200, 300)
+        with tempfile.TemporaryDirectory() as d:
+            a = np.array(inference.predict(Stub(), v, Path(d) / 'a.npy', device='cpu', amp='fp32', stride=48, blend='hann'))
+            b = np.array(inference.predict(Stub(), v, Path(d) / 'b.npy', device='cpu', amp='fp16', stride=48, blend='hann'))
+        np.testing.assert_array_equal(a, b)
 
 
 if __name__ == '__main__':

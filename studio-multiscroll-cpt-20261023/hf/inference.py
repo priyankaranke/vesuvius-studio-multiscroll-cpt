@@ -39,6 +39,18 @@ def hann96():
     return (w[:, None] * w[None, :]).astype(np.float32)
 
 
+AMP_DTYPES = {"bf16": torch.bfloat16, "fp16": torch.float16}
+
+
+def resolve_amp(amp, device):
+    """auto: bf16 on GPUs with native BF16 (compute capability >= 8.0), fp16 on older GPUs (T4, V100), fp32 on CPU."""
+    if amp != "auto":
+        return amp
+    if not str(device).startswith("cuda"):
+        return "fp32"
+    return "bf16" if torch.cuda.get_device_capability(device)[0] >= 8 else "fp16"
+
+
 @torch.inference_mode()
 def predict(model, volume, output, device="cuda", batch_size=1, amp="bf16", stride=96, blend="none", skip_empty=True):
     if volume.ndim != 3 or volume.shape[0] != 16 or volume.dtype != np.uint8:
@@ -62,7 +74,7 @@ def predict(model, volume, output, device="cuda", batch_size=1, amp="bf16", stri
         raw = np.stack([crop(volume, y - 16, x - 16) for y, x in batch])
         x = torch.from_numpy(raw[:, None]).to(device=device, dtype=torch.float32)
         x.clamp_(0, 200).div_(255)
-        context = torch.autocast("cuda", dtype=torch.bfloat16) if str(device).startswith("cuda") and amp == "bf16" else nullcontext()
+        context = torch.autocast("cuda", dtype=AMP_DTYPES[amp]) if str(device).startswith("cuda") and amp in AMP_DTYPES else nullcontext()
         with context:
             logits = model(x)
         probability = logits[:, 0, 16:112, 16:112].float().sigmoid().cpu().numpy()
@@ -89,7 +101,8 @@ def main():
     parser.add_argument("--revision", default="main", help="HF commit or revision; pin for reproducibility")
     parser.add_argument("--device", default="cuda", choices=["cuda", "cpu"])
     parser.add_argument("--batch-size", type=int, default=1)
-    parser.add_argument("--amp", default="bf16", choices=["bf16", "fp32"])
+    parser.add_argument("--precision", "--amp", dest="amp", default="auto", choices=["auto", "bf16", "fp16", "fp32"],
+                        help="CUDA autocast; auto = bf16 on compute capability >= 8.0, fp16 below (T4, V100), fp32 on CPU")
     parser.add_argument("--stride", type=int, default=96, help="Window step in px; 96 = no overlap (default); with --blend hann, 48 = no tile pattern, 64 = the submission tiling")
     parser.add_argument("--blend", default="none", choices=["none", "hann"], help="hann: Hann-weighted average of overlapping windows")
     parser.add_argument("--keep-empty", action="store_true", help="Also run windows with no CT data (slower)")
@@ -100,8 +113,9 @@ def main():
         parser.error("Output already exists; choose a new filename")
     if args.device == "cuda" and not torch.cuda.is_available():
         parser.error("CUDA is unavailable; select --device cpu or install compatible PyTorch")
+    args.amp = resolve_amp(args.amp, args.device)
     if args.device == "cuda" and args.amp == "bf16" and not torch.cuda.is_bf16_supported():
-        parser.error("GPU does not support BF16; use --amp fp32")
+        parser.error("GPU does not support BF16; use --precision fp16 or fp32")
     checkpoint = args.checkpoint
     if not checkpoint:
         from huggingface_hub import hf_hub_download
