@@ -18,7 +18,8 @@ def main(argv=None):
                         help='Expected hash; set explicitly for newly trained weights')
     parser.add_argument('--device', choices=['cpu', 'cuda'], default='cuda')
     parser.add_argument('--batch-size', type=int, default=32)
-    parser.add_argument('--amp', choices=['bf16', 'fp32'], default='bf16')
+    parser.add_argument('--precision', '--amp', dest='amp', choices=['auto', 'bf16', 'fp16', 'fp32'], default='auto',
+                        help='auto = bf16 on compute capability >= 8.0, fp16 on older GPUs (T4, V100), fp32 on CPU')
     parser.add_argument('--stride', type=int, default=64,
                         help='Window step with Hann blending; 64 = the submission tiling, 48 = no tile pattern (~1.7x slower)')
     args = parser.parse_args(argv)
@@ -44,7 +45,7 @@ def main(argv=None):
     subprocess.run([sys.executable, str(root / 'studio-multiscroll-cpt-20261023/hf/inference.py'),
                     '--input', str(args.input.resolve()), '--output', str(args.output.resolve()),
                     '--checkpoint', str(checkpoint.resolve()), '--stride', str(args.stride), '--blend', 'hann',
-                    '--batch-size', str(args.batch_size), '--device', args.device, '--amp', args.amp], check=True)
+                    '--batch-size', str(args.batch_size), '--device', args.device, '--precision', args.amp], check=True)
 
 
 if __name__ == '__main__':
